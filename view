@@ -88,10 +88,30 @@ def main(page: ft.Page):
             go_to_vhod.visible = True
             back_start_but.visible = False
             page.update()
+    def view_login(e):
+        login_stat=login(1, name_field_login, pas_field_login)
+        if login_stat=="snack_bar_open_whod":
+            pass
+        elif login_stat=="open_admin_panel":
+            pass
+        elif login_stat == "open_user_panel":
+            pass
+
+    def view_registration(e):
+        registration_stat = registration(1,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg,
+                 age_field_reg,mail_field,pol_vebor,city_field_reg)
+        if registration_stat=="snack_bar_open":
+            pass
+        elif registration_stat=="open_dialg":
+            pass
+        elif registration_stat == "snack_bar_open_reg":
+            pass
+
+
 
 # Элементы страницы регистрации_________________________________________________________________
-    reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегестрироваться", color='#FFFFFF'), on_click=registration(1,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg,
-                 age_field_reg,mail_field,pol_vebor,city_field_reg),
+    reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегестрироваться", color='#FFFFFF'),
+                                on_click=view_registration,
                                 bgcolor='#1DB100', style=ft.ButtonStyle(overlay_color='GREEN900'))
     dlg_reg = ft.AlertDialog(
         modal=True,
@@ -111,7 +131,7 @@ def main(page: ft.Page):
 
 
 # Элементы страницы входа_________________________________________________________________
-    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#FFFFFF'), on_click=login(1,name_field_login,pas_field_login)
+    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#FFFFFF'), on_click=view_login
                                  , bgcolor='#1DB100',
                                  style=ft.ButtonStyle(overlay_color='GREEN900'))
     vhod = ft.Column([vhod_text, name_field_login, pas_field_login, vhod_but], alignment=ft.alignment.center)

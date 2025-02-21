@@ -5,16 +5,19 @@ import flet as ft
 def main(page: ft.Page):
 
     def snack_bar_open():
+        print("snack_bar_open1")
         page.snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
         page.update()
 
     def snack_bar_open_whod():
+        print("snack_bar_open_whod1")
         page.snack_bar = ft.SnackBar(ft.Text(value="Нет такого пользователя", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
         page.update()
 
     def snack_bar_open_reg():
+        print("snack_bar_reg1")
         page.snack_bar = ft.SnackBar(ft.Text(value="Такой пользователь уже есть", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
         page.update()
@@ -46,7 +49,7 @@ def main(page: ft.Page):
         def open_vhod_window_lambda(e):
             global new_user_enter
             new_user_enter = 1
-            open.open_vhod_window(1)
+            Open.open_vhod_window(1)
             close = lambda: page.close(dlg_reg)
             close()
             page.update()
@@ -89,14 +92,15 @@ def main(page: ft.Page):
             go_to_vhod.visible = True
             back_start_but.visible = False
             page.update()
+
     def view_login(e):
         login_stat=login(1, name_field_login, pas_field_login)
         if login_stat=="snack_bar_open_whod":
             snack_bar_open_whod()
         elif login_stat=="open_admin_panel":
-            Open.open_admin_panel()
+            Open.open_admin_panel(1)
         elif login_stat == "open_user_panel":
-            Open.open_user_panel()
+            Open.open_user_panel(1)
 
     def view_registration(e):
         registration_stat = registration(1,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg,

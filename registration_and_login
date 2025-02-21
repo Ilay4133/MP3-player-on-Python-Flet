@@ -19,6 +19,7 @@ def registration(e,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas
     if any(field.value == "" for field in
            [name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg, age_field_reg,
             city_field_reg]):
+        print("snack_bar_open")
         return "snack_bar_open"
     else:
         try:
@@ -38,8 +39,10 @@ def registration(e,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas
                 "INSERT INTO Users (name, last_name, otchestvo, password, mail, age, pol, city) VALUES(?,?,?,?,?,?,?,?)",
                 values)
             db.commit()
+            print("open_dialg")
             return "open_dialg"
         except sqlite3.Error as e:
+            print("snack_bar_open_reg")
             return "snack_bar_open_reg"
         finally:
             cur.close()
@@ -54,15 +57,18 @@ def login(e,name_field_login,pas_field_login):
     cur.execute("SELECT * FROM Users WHERE name=?", (name_field_login.value,))
     user = cur.fetchall()
     if user == []:
+        print("snack_bar_open_whod")
         return "snack_bar_open_whod"
     for row in user:
         if row[0] == admin:
             if row[3] == admin_pas:
+                print("open_admin_panel")
                 return "open_admin_panel"
             else:
                 pass
         else:
             if row[3] == pas_field_login.value:
+                print("open_user_panel")
                 return "open_user_panel"
             else:
                 pass

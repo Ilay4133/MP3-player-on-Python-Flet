@@ -6,16 +6,16 @@ otchestvo_field_reg = ft.TextField(value="", hint_text="Фамилия", width=3
 pas_field_reg=ft.TextField(hint_text="Пароль", password=True, can_reveal_password=True,width=300,border_color='#FFFFFF')
 mail_field=ft.TextField(value="", hint_text="Электронная почта", width=300,border_color='#FFFFFF')
 age_field_reg = ft.TextField(value="", hint_text="Возраст", width=300,border_color='#FFFFFF')
-city_field_reg = ft.TextField(value="", hint_text="Город", width=300,border_color='#FFFFFF')
-pol_text_reg=ft.Text(value="Выберите пол",size=12, color='#FFFFFF')
+city_field_reg = ft.TextField(value="", hint_text="Город", width=300,border_color='#FFFFFF',cursor_color='#1DB100',focused_border_color='#1DB100',border_radius=10)
 pol_vebor = ft.RadioGroup(content=ft.Column([
     ft.Radio(value="Мужской", label="Мужской",active_color='#1DB100'),
     ft.Radio(value="Женский", label="Женский",active_color='#1DB100')]))
 
 reg_text = ft.Text(value="Регистрация", size=30, color='#FFFFFF')
+pol_text_reg=ft.Text(value="Выберите пол",size=12, color='#FFFFFF')
 
 #Элементы страницы входа_________________________________________________________________
 vhod_text = ft.Text(value="Вход", size=30, color='#FFFFFF')
-name_field_login = ft.TextField(value="", hint_text="Никенейм", border_color='#FFFFFF')
-pas_field_login = ft.TextField(hint_text="Пароль", password=True, can_reveal_password=True, border_color='#FFFFFF')
+name_field_login = ft.TextField(value="", hint_text="Никенейм", border_color='#FFFFFF', width=300)
+pas_field_login = ft.TextField(hint_text="Пароль", password=True, can_reveal_password=True, border_color='#FFFFFF', width=300)
 #________________________________________________________________________________________

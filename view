@@ -3,21 +3,24 @@ from registration_and_login_elements import *
 import flet as ft
 
 def main(page: ft.Page):
+    page.scroll = "always"
+    page.title = "Регистрация"
+    page.theme_mode = "dark"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.update()
 
     def snack_bar_open():
-        print("snack_bar_open1")
         page.snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
         page.update()
 
     def snack_bar_open_whod():
-        print("snack_bar_open_whod1")
         page.snack_bar = ft.SnackBar(ft.Text(value="Нет такого пользователя", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
         page.update()
 
     def snack_bar_open_reg():
-        print("snack_bar_reg1")
         page.snack_bar = ft.SnackBar(ft.Text(value="Такой пользователь уже есть", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
         page.update()
@@ -137,8 +140,8 @@ def main(page: ft.Page):
 
 
 # Элементы страницы входа_________________________________________________________________
-    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#FFFFFF'), on_click=view_login
-                                 , bgcolor='#1DB100',
+    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#FFFFFF'),
+                                 on_click=view_login, bgcolor='#1DB100',
                                  style=ft.ButtonStyle(overlay_color='GREEN900'))
     vhod = ft.Column([vhod_text, name_field_login, pas_field_login, vhod_but], alignment=ft.alignment.center)
     vhod_column = ft.Container(content=vhod, alignment=ft.alignment.center)
@@ -171,9 +174,6 @@ def main(page: ft.Page):
     start_column = ft.Container(content=start)
     page.add(vhod_column, reg_column, start_column)
     Close.back_start(1)
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.update()
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.update()
 
 

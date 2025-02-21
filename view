@@ -3,6 +3,7 @@ from registration_and_login_elements import *
 import flet as ft
 
 def main(page: ft.Page):
+
     def snack_bar_open():
         page.snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#FFFFFF'), bgcolor='#1DB100')
         page.snack_bar.open = True
@@ -18,7 +19,7 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
 
-    class open():
+    class Open():
         def open_user_panel(self):
             print("User panel")
 
@@ -34,7 +35,7 @@ def main(page: ft.Page):
             page.update()
 
         def open_vhod_window(e):
-            close.close_reg_window(1)
+            Close.close_reg_window(1)
             vhod_column.visible = True
             go_to_reg.visible = False
             go_to_vhod.visible = False
@@ -50,7 +51,7 @@ def main(page: ft.Page):
             close()
             page.update()
 
-    class close():
+    class Close():
         def close_all(self):
             go_to_reg.visible = False
             vhod_in_text.visible = False
@@ -81,8 +82,8 @@ def main(page: ft.Page):
             page.update()
 
         def back_start(self):
-            close.close_reg_window(1)
-            close.close_vhod_wind(1)
+            Close.close_reg_window(1)
+            Close.close_vhod_wind(1)
             go_to_reg.visible = True
             vhod_in_text.visible = True
             go_to_vhod.visible = True
@@ -91,21 +92,22 @@ def main(page: ft.Page):
     def view_login(e):
         login_stat=login(1, name_field_login, pas_field_login)
         if login_stat=="snack_bar_open_whod":
-            pass
+            snack_bar_open_whod()
         elif login_stat=="open_admin_panel":
-            pass
+            Open.open_admin_panel()
         elif login_stat == "open_user_panel":
-            pass
+            Open.open_user_panel()
 
     def view_registration(e):
         registration_stat = registration(1,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg,
                  age_field_reg,mail_field,pol_vebor,city_field_reg)
         if registration_stat=="snack_bar_open":
-            pass
+            snack_bar_open()
         elif registration_stat=="open_dialg":
-            pass
+            open_dlg = lambda: page.open(dlg_reg)
+            open_dlg()
         elif registration_stat == "snack_bar_open_reg":
-            pass
+            snack_bar_open_reg()
 
 
 
@@ -118,9 +120,9 @@ def main(page: ft.Page):
         title=ft.Text("Подтвердите пожалуйста"),
         content=ft.Text("Хотите перейти ко входу?"),
         actions=[
-            ft.TextButton("Да", on_click=open.open_vhod_window_lambda,
+            ft.TextButton("Да", on_click=Open.open_vhod_window_lambda,
                           style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
-            ft.TextButton("Нет", on_click=close.close_dlg,
+            ft.TextButton("Нет", on_click=Close.close_dlg,
                           style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
         ],
         actions_alignment=ft.MainAxisAlignment.END, bgcolor='#00321A')
@@ -143,28 +145,28 @@ def main(page: ft.Page):
         title=ft.Text("Подтвердите пожалуйста"),
         content=ft.Text("Хотите перейти ко входу?"),
         actions=[
-            ft.TextButton("Да", on_click=open.open_vhod_window_lambda,
+            ft.TextButton("Да", on_click=Open.open_vhod_window_lambda,
                           style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
-            ft.TextButton("Нет", on_click=close.close_dlg,
+            ft.TextButton("Нет", on_click=Close.close_dlg,
                           style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
         ],
         actions_alignment=ft.MainAxisAlignment.END, bgcolor='#00321A')
 
 # Элементы начальной страницы_________________________________________________________________
     vhod_in_text = ft.Text(value="Уже есть аккаунт?")
-    go_to_reg = ft.ElevatedButton(content=ft.Text(value="Регистрация", color='#FFFFFF'), on_click=open.open_reg_window,
+    go_to_reg = ft.ElevatedButton(content=ft.Text(value="Регистрация", color='#FFFFFF'), on_click=Open.open_reg_window,
                                   bgcolor='#1DB100', style=ft.ButtonStyle(elevation=None, overlay_color='GREEN900'
                                                                           ))
-    go_to_vhod = ft.ElevatedButton(content=ft.Text(value="Войти ", color='#FFFFFF'), on_click=open.open_vhod_window,
+    go_to_vhod = ft.ElevatedButton(content=ft.Text(value="Войти ", color='#FFFFFF'), on_click=Open.open_vhod_window,
                                    style=ft.ButtonStyle(elevation=None, overlay_color='GREEN900'
                                                         ))
-    back_start_but = ft.ElevatedButton(content=ft.Text(value="Назад", color='#FFFFFF'), on_click=close.back_start,
+    back_start_but = ft.ElevatedButton(content=ft.Text(value="Назад", color='#FFFFFF'), on_click=Close.back_start,
                                        bgcolor='#1DB100', style=ft.ButtonStyle(elevation=None, overlay_color='GREEN900'
                                                                                ))
     start = ft.Column([go_to_reg, vhod_in_text, go_to_vhod, back_start_but])
     start_column = ft.Container(content=start)
     page.add(vhod_column, reg_column, start_column)
-    close.back_start(1)
+    Close.back_start(1)
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
     page.vertical_alignment = ft.MainAxisAlignment.CENTER

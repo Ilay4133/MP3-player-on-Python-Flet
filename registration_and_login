@@ -40,7 +40,7 @@ def registration(e,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas
             db.commit()
             return "open_dialg"
         except sqlite3.Error as e:
-            return "snack_bar_open_reg()"
+            return "snack_bar_open_reg"
         finally:
             cur.close()
             db.close()

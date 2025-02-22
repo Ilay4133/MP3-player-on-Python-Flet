@@ -1,21 +1,37 @@
 import flet as ft
 #Элементы страницы регистрации_________________________________________________________________
-name_field_reg = ft.TextField(value="", hint_text="Никнейм", width=300,border_color='#FFFFFF')
-last_name_field_reg = ft.TextField(value="", hint_text="Имя", width=300,border_color='#FFFFFF')
-otchestvo_field_reg = ft.TextField(value="", hint_text="Фамилия", width=300,border_color='#FFFFFF')
-pas_field_reg=ft.TextField(hint_text="Пароль", password=True, can_reveal_password=True,width=300,border_color='#FFFFFF')
-mail_field=ft.TextField(value="", hint_text="Электронная почта", width=300,border_color='#FFFFFF')
-age_field_reg = ft.TextField(value="", hint_text="Возраст", width=300,border_color='#FFFFFF')
-city_field_reg = ft.TextField(value="", hint_text="Город", width=300,border_color='#FFFFFF',cursor_color='#1DB100',focused_border_color='#1DB100',border_radius=10)
+name_field_reg = ft.TextField(value="", label="Никнейм",label_style=ft.TextStyle(color='#0ba6bf'), width=300,border_color='#00718f',
+                              cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
+last_name_field_reg = ft.TextField(value="", label="Имя",label_style=ft.TextStyle(color='#0ba6bf'), width=300,border_color='#00718f',
+                                   cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
+otchestvo_field_reg = ft.TextField(value="", label="Фамилия",label_style=ft.TextStyle(color='#0ba6bf'), width=300,border_color='#00718f',
+                                   cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
+pas_field_reg=ft.TextField(label="Пароль",label_style=ft.TextStyle(color='#0ba6bf'), password=True, can_reveal_password=True,width=300,
+                           border_color='#00718f',cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
+mail_field=ft.TextField(value="", label="Электронная почта",label_style=ft.TextStyle(color='#0ba6bf'), width=300,border_color='#00718f',
+                        cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
+age_field_reg = ft.TextField(value="", label="Возраст",label_style=ft.TextStyle(color='#0ba6bf'), width=300,border_color='#00718f',
+                             cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,max_length=2,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
+city_field_reg = ft.TextField(value="", label="Город",label_style=ft.TextStyle(color='#0ba6bf'), width=300,border_color='#00718f',
+                              cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=18),
+                             border_width=2,selection_color='#81bece',cursor_width=4)
 pol_vebor = ft.RadioGroup(content=ft.Column([
-    ft.Radio(value="Мужской", label="Мужской",active_color='#1DB100'),
-    ft.Radio(value="Женский", label="Женский",active_color='#1DB100')]))
+    ft.Radio(value="Мужской", label="Мужской",active_color='#0ba6bf',
+             label_style=ft.TextStyle(color='#0ca5bf',size=20,weight=ft.FontWeight.BOLD)),
+    ft.Radio(value="Женский", label="Женский",active_color='#0ba6bf',
+             label_style=ft.TextStyle(color='#0ca5bf',size=20,weight=ft.FontWeight.BOLD))]))
 
-reg_text = ft.Text(value="Регистрация", size=30, color='#FFFFFF')
-pol_text_reg=ft.Text(value="Выберите пол",size=12, color='#FFFFFF')
+reg_text = ft.Text(value="Регистрация", size=30, color='#0ba6bf',weight=ft.FontWeight.BOLD)
+pol_text_reg=ft.Text(value="Выберите пол",size=12, color='#0ba6bf')
 
 #Элементы страницы входа_________________________________________________________________
-vhod_text = ft.Text(value="Вход", size=30, color='#FFFFFF')
-name_field_login = ft.TextField(value="", hint_text="Никенейм", border_color='#FFFFFF', width=300)
-pas_field_login = ft.TextField(hint_text="Пароль", password=True, can_reveal_password=True, border_color='#FFFFFF', width=300)
+vhod_text = ft.Text(value="Вход", size=30, color='#0ba6bf',weight=ft.FontWeight.BOLD)
+name_field_login = ft.TextField(value="", label="Никенейм", border_color='#FFFFFF', width=300)
+pas_field_login = ft.TextField(label="Пароль", password=True, can_reveal_password=True, border_color='#FFFFFF', width=300)
 #________________________________________________________________________________________

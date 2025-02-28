@@ -1,27 +1,27 @@
+import flet as ft
 from registration_and_login import *
 from registration_and_login_elements import *
-import flet as ft
 
 def main(page: ft.Page):
     page.scroll = "always"
     page.title = "Регистрация"
     page.theme_mode = "dark"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
     page.update()
 
     def snack_bar_open():
-        page.snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#FFFFFF'), bgcolor='#1DB100')
+        page.snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#e8eee7'), bgcolor='#0c3348')
         page.snack_bar.open = True
         page.update()
 
     def snack_bar_open_whod():
-        page.snack_bar = ft.SnackBar(ft.Text(value="Нет такого пользователя", color='#FFFFFF'), bgcolor='#1DB100')
+        page.snack_bar = ft.SnackBar(ft.Text(value="Нет такого пользователя", color='#e8eee7'), bgcolor='#0c3348')
         page.snack_bar.open = True
         page.update()
 
     def snack_bar_open_reg():
-        page.snack_bar = ft.SnackBar(ft.Text(value="Такой пользователь уже есть", color='#FFFFFF'), bgcolor='#1DB100')
+        page.snack_bar = ft.SnackBar(ft.Text(value="Такой пользователь уже есть", color='#e8eee7'), bgcolor='#0c3348')
         page.snack_bar.open = True
         page.update()
 
@@ -76,7 +76,6 @@ def main(page: ft.Page):
             mail_field.value = None
             age_field_reg.value = None
             city_field_reg.value = None
-            pol_text_reg.value = None
             pol_vebor.value = None
             reg_column.visible = False
             page.update()
@@ -97,84 +96,67 @@ def main(page: ft.Page):
             page.update()
 
     def view_login(e):
-        login_stat=login(1, name_field_login, pas_field_login)
-        if login_stat=="snack_bar_open_whod":
+        login_stat = login(1, name_field_login, pas_field_login)
+        if login_stat == "snack_bar_open_whod":
             snack_bar_open_whod()
-        elif login_stat=="open_admin_panel":
+        elif login_stat == "open_admin_panel":
             Open.open_admin_panel(1)
         elif login_stat == "open_user_panel":
             Open.open_user_panel(1)
 
     def view_registration(e):
-        registration_stat = registration(1,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg,
-                 age_field_reg,mail_field,pol_vebor,city_field_reg)
-        if registration_stat=="snack_bar_open":
+        registration_stat = registration(1, name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg,
+                                        age_field_reg, mail_field, pol_vebor, city_field_reg)
+        if registration_stat == "snack_bar_open":
             snack_bar_open()
-        elif registration_stat=="open_dialg":
+        elif registration_stat == "open_dialg":
             open_dlg = lambda: page.open(dlg_reg)
             open_dlg()
         elif registration_stat == "snack_bar_open_reg":
             snack_bar_open_reg()
 
-
-
-# Элементы страницы регистрации_________________________________________________________________
-    reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегестрироваться", color='#FFFFFF'),
+    # Элементы страницы регистрации
+    reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
                                 on_click=view_registration,
-                                bgcolor='#1DB100', style=ft.ButtonStyle(overlay_color='GREEN900'))
+                                bgcolor='#036380', style=ft.ButtonStyle(overlay_color='#0ba6bf'),width=200,height=35)
     dlg_reg = ft.AlertDialog(
         modal=True,
-        title=ft.Text("Подтвердите пожалуйста"),
-        content=ft.Text("Хотите перейти ко входу?"),
+        title=ft.Text("Подтвердите пожалуйста",color='#e8eee7'),
+        content=ft.Text("Хотите перейти ко входу?",color='#e8eee7'),
         actions=[
-            ft.TextButton("Да", on_click=Open.open_vhod_window_lambda,
-                          style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
-            ft.TextButton("Нет", on_click=Close.close_dlg,
-                          style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
-        ],
-        actions_alignment=ft.MainAxisAlignment.END, bgcolor='#00321A')
+            ft.TextButton(text="Да", on_click=Open.open_vhod_window_lambda,
+                          style=ft.ButtonStyle(color='#e8eee7', bgcolor='#036380', overlay_color='#0ba6bf')),
+            ft.TextButton(text="Нет", on_click=Close.close_dlg,
+                          style=ft.ButtonStyle(color='#e8eee7', bgcolor='#036380', overlay_color='#0ba6bf'))],
+        actions_alignment=ft.MainAxisAlignment.END, bgcolor='#012f4a')
+
     reg = ft.Column([reg_text, name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg, mail_field,
-                     age_field_reg, pol_text_reg, pol_vebor, city_field_reg,
-                     reg_but], alignment=ft.alignment.center)
-    reg_column = ft.Container(content=reg, alignment=ft.alignment.center)
+                     age_field_reg, pol_vebor, city_field_reg,
+                     reg_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
+    reg_column = ft.Container(content=reg, alignment=ft.alignment.center, expand=True)
 
+    # Элементы страницы входа
+    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#e8eee7',style=ft.TextStyle(size=17)),
+                                 on_click=view_login, bgcolor='#036380',
+                                 style=ft.ButtonStyle(overlay_color='#0ba6bf'),width=200,height=35)
+    vhod = ft.Column([vhod_text, name_field_login, pas_field_login, vhod_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
+    vhod_column = ft.Container(content=vhod, alignment=ft.alignment.center, expand=True)
 
-# Элементы страницы входа_________________________________________________________________
-    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#FFFFFF'),
-                                 on_click=view_login, bgcolor='#1DB100',
-                                 style=ft.ButtonStyle(overlay_color='GREEN900'))
-    vhod = ft.Column([vhod_text, name_field_login, pas_field_login, vhod_but], alignment=ft.alignment.center)
-    vhod_column = ft.Container(content=vhod, alignment=ft.alignment.center)
+    # Элементы начальной страницы
+    vhod_in_text = ft.Text(value="Уже есть аккаунт?",style=ft.TextStyle(size=18,weight=ft.FontWeight.BOLD),color='#0ba6bf')
+    go_to_reg = ft.ElevatedButton(content=ft.Text(value="Регистрация", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Open.open_reg_window,
+                                  bgcolor='#036380', style=ft.ButtonStyle(elevation=None, overlay_color='#0ba6bf'),width=155)
+    go_to_vhod = ft.ElevatedButton(content=ft.Text(value="Войти ", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Open.open_vhod_window,
+                                   style=ft.ButtonStyle(elevation=None, overlay_color='#0ba6bf'),width=135)
+    back_start_but = ft.ElevatedButton(content=ft.Text(value="Назад", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Close.back_start,
+                                       bgcolor='#036380', style=ft.ButtonStyle(elevation=None, overlay_color='#0ba6bf'),width=200,height=35)
 
+    start = ft.Column([go_to_reg, vhod_in_text, go_to_vhod, back_start_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
+    start_column = ft.Container(content=start, alignment=ft.alignment.center, expand=True)
 
-    dlg_reg = ft.AlertDialog(
-        modal=True,
-        title=ft.Text("Подтвердите пожалуйста"),
-        content=ft.Text("Хотите перейти ко входу?"),
-        actions=[
-            ft.TextButton("Да", on_click=Open.open_vhod_window_lambda,
-                          style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
-            ft.TextButton("Нет", on_click=Close.close_dlg,
-                          style=ft.ButtonStyle(color='#FFFFFF', bgcolor='#1DB100', overlay_color='GREEN900')),
-        ],
-        actions_alignment=ft.MainAxisAlignment.END, bgcolor='#00321A')
-
-# Элементы начальной страницы_________________________________________________________________
-    vhod_in_text = ft.Text(value="Уже есть аккаунт?")
-    go_to_reg = ft.ElevatedButton(content=ft.Text(value="Регистрация", color='#FFFFFF'), on_click=Open.open_reg_window,
-                                  bgcolor='#1DB100', style=ft.ButtonStyle(elevation=None, overlay_color='GREEN900'
-                                                                          ))
-    go_to_vhod = ft.ElevatedButton(content=ft.Text(value="Войти ", color='#FFFFFF'), on_click=Open.open_vhod_window,
-                                   style=ft.ButtonStyle(elevation=None, overlay_color='GREEN900'
-                                                        ))
-    back_start_but = ft.ElevatedButton(content=ft.Text(value="Назад", color='#FFFFFF'), on_click=Close.back_start,
-                                       bgcolor='#1DB100', style=ft.ButtonStyle(elevation=None, overlay_color='GREEN900'
-                                                                               ))
-    start = ft.Column([go_to_reg, vhod_in_text, go_to_vhod, back_start_but])
-    start_column = ft.Container(content=start)
-    page.add(vhod_column, reg_column, start_column)
+    # Добавление всех контейнеров на страницу
+    page.add(ft.Column([vhod_column, reg_column, start_column], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER, expand=True))
     Close.back_start(1)
     page.update()
-
 
 ft.app(target=main)

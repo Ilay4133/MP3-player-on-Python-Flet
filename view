@@ -2,9 +2,6 @@ import flet as ft
 from registration_and_login import *
 from registration_and_login_elements import *
 
-
-
-
 def main(page: ft.Page):
     page.scroll = "always"
     page.title = "Регистрация"

@@ -9,7 +9,7 @@ def main(page: ft.Page):
     page.scroll = "always"
     page.title = "Регистрация"
     page.bgcolor='#0b012e'
-    page.theme_mode="dark"
+    page.theme_mode=ft.ThemeMode.DARK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
     page.pading=ft.padding.all(100)
@@ -216,6 +216,7 @@ def main(page: ft.Page):
         bgcolor='#14044d',
         shadow_color='#0ba6bf',
         elevation=100,
+        indicator_shape=ft.ContinuousRectangleBorder(radius=20),
         controls=[
             ft.Container(height=12),
             ft.NavigationDrawerDestination(
@@ -285,8 +286,10 @@ def main(page: ft.Page):
     home_page_column=ft.Column([home_menus_buttons,divider_homa_page,songs_menus_elements])
     page.add(home_page_column)
     page.update()
-    page.padding=ft.Padding(top=40,left=30,right=30,bottom=0)
+    page.padding=ft.Padding(top=20,left=30,right=30,bottom=0)
+    start_column.visible=False
     page.update()
 
 
 ft.app(target=main)
+# flet run view.py --web

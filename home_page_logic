@@ -27,20 +27,34 @@ cur.close()
 db.close()
 
 def add_new_song_to_data(e):
-    db = sqlite3.connect('Users_information.data')
-    cur = db.cursor()
-    values = (
-        str(song_name_field.value),
-        str(author_field.value),
-        str(genre_field.value),
-        str(album_field.value),
 
-    )
-    cur.execute(
-        "INSERT INTO Users (name, last_name, otchestvo, password, mail, age, pol, city) VALUES(?,?,?,?,?,?,?,?)",
-        values)
-    db.commit()
+    path_to_mp3=""
+    path_to_img = ""
 
+    if any(field.value == "" for field in
+           [song_name_field, author_field, genre_field, album_field]):
+        return "add_song_snack_bar_open_no_data"
+    else:
+        try:
+            db = sqlite3.connect('User_songs_information.data')
+            cur = db.cursor()
+            values = (
+                str(song_name_field.value),
+                str(author_field.value),
+                str(genre_field.value),
+                str(album_field.value),
+                path_to_mp3,
+                path_to_img
+            )
+            cur.execute("INSERT INTO Songs (name, author, genre, album, path_to_mp3, path_to_img) VALUES(?,?,?,?,?,?)",
+                        values)
+            db.commit()
+            return "open_dialg"
+        except sqlite3.Error as e:
+            return "add_song_snack_bar_open_allready"
+        finally:
+            cur.close()
+            db.close()
 
 
 

@@ -1,6 +1,7 @@
 from registration_and_login import *
 from registration_and_login_elements import *
 from home_page_logic import *
+from home_page_add_new_song_elements import *
 import flet as ft
 
 
@@ -8,6 +9,7 @@ def main(page: ft.Page):
     page.scroll = "always"
     page.title = "Регистрация"
     page.bgcolor='#0b012e'
+    page.theme_mode="dark"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
     page.pading=ft.padding.all(100)
@@ -29,10 +31,10 @@ def main(page: ft.Page):
         page.update()
 
     class Open_reg():
-        def open_user_panel(self):
+        def open_user_panel(e):
             print("User panel")
 
-        def open_admin_panel(self):
+        def open_admin_panel(e):
             print("Admin panel")
 
         def open_reg_window(e):
@@ -60,8 +62,20 @@ def main(page: ft.Page):
             close()
             page.update()
 
+    class Open_home():
+        def open_add_new_song_wind(e):
+            pass
+        def open_select_songs_wind(e):
+            pass
+        def open_sort_songs_wind(e):
+            pass
+        def open_search_song_wind(e):
+            pass
+        def open_edit_design_wind(e):
+            pass
+
     class Close_reg():
-        def close_all(self):
+        def close_all(e):
             go_to_reg.visible = False
             vhod_in_text.visible = False
             go_to_vhod.visible = False
@@ -195,6 +209,34 @@ def main(page: ft.Page):
     page.update()
 
     # Элементы домашней страницы (страницы с песнями)________________________
+    drawer = ft.NavigationDrawer(
+        on_dismiss=lambda e: print("close"),
+        on_change=lambda e:print(e),
+        indicator_color='#0ba6bf',
+        bgcolor='#14044d',
+        shadow_color='#0ba6bf',
+        elevation=100,
+        controls=[
+            ft.Container(height=12),
+            ft.NavigationDrawerDestination(
+                label="Библиотека",
+                icon=ft.Icons.MY_LIBRARY_MUSIC_OUTLINED,
+                selected_icon=ft.Icon(ft.Icons.MY_LIBRARY_MUSIC_ROUNDED),
+            ),
+            ft.Divider(thickness=2),
+            ft.NavigationDrawerDestination(
+                label="Эквалайзер",
+                icon=ft.Icon(ft.Icons.MAIL_OUTLINED),
+                selected_icon=ft.Icons.MAIL,
+            ),
+            ft.NavigationDrawerDestination(
+                label="Настройки",
+                icon=ft.Icon(ft.Icons.BRIGHTNESS_7_OUTLINED),
+                selected_icon=ft.Icons.BRIGHTNESS_7_ROUNDED,
+            ),
+        ],
+    )
+
     page_selecter_but=ft.CupertinoSlidingSegmentedButton(
         width=1600,height=50,bgcolor='#0b012e',thumb_color='#160454',on_change=select_but_chage,
         controls=[
@@ -209,12 +251,18 @@ def main(page: ft.Page):
     vert_divider_songs_menu = ft.VerticalDivider(width=885)
     divider_homa_page=ft.Divider(height=20,thickness=1,color='#0ba6bf')
 
-    search_icon_but=ft.IconButton(icon=ft.Icons.SEARCH_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Поиск в библиотеке",hover_color='#00457d')
-    design_icon_but=ft.IconButton(icon=ft.Icons.COLOR_LENS_ROUNDED,icon_size=50,icon_color='#0ba6bf',tooltip="Изменить тему",hover_color='#00457d')
-    menu_icon_but=ft.IconButton(icon=ft.Icons.MENU_OPEN_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Меню",hover_color='#00457d')
-    songs_list_icon_but=ft.IconButton(icon=ft.Icons.FORMAT_LIST_NUMBERED,icon_size=50,icon_color='#0ba6bf',tooltip="Выбрать песни",hover_color='#00457d')
-    sorting_icon_but=ft.IconButton(icon=ft.Icons.ALT_ROUTE_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Сортировать",hover_color='#00457d')
-    add_song_icon_but=ft.IconButton(icon=ft.Icons.ADD_CIRCLE_OUTLINE_ROUNDED,icon_size=50,icon_color='#0ba6bf',tooltip="Добавить песню",hover_color='#00457d')
+    search_icon_but=ft.IconButton(icon=ft.Icons.SEARCH_SHARP,icon_size=50,icon_color='#0ba6bf',
+                                  tooltip="Поиск в библиотеке",hover_color='#00457d',on_click=Open_home.open_search_song_wind)
+    design_icon_but=ft.IconButton(icon=ft.Icons.COLOR_LENS_ROUNDED,icon_size=50,icon_color='#0ba6bf',
+                                  tooltip="Изменить тему",hover_color='#00457d',on_click=Open_home.open_edit_design_wind)
+    menu_icon_but=ft.IconButton(icon=ft.Icons.MENU_OPEN_SHARP,icon_size=50,icon_color='#0ba6bf',
+                                  tooltip="Меню",hover_color='#00457d',on_click=lambda e: page.open(drawer))
+    songs_list_icon_but=ft.IconButton(icon=ft.Icons.FORMAT_LIST_NUMBERED,icon_size=50,icon_color='#0ba6bf',
+                                  tooltip="Выбрать песни",hover_color='#00457d',on_click=Open_home.open_select_songs_wind)
+    sorting_icon_but=ft.IconButton(icon=ft.Icons.ALT_ROUTE_SHARP,icon_size=50,icon_color='#0ba6bf',
+                                  tooltip="Сортировать",hover_color='#00457d',on_click=Open_home.open_sort_songs_wind)
+    add_song_icon_but=ft.IconButton(icon=ft.Icons.ADD_CIRCLE_OUTLINE_ROUNDED,icon_size=50,icon_color='#0ba6bf',
+                                  tooltip="Добавить песню",hover_color='#00457d',on_click=Open_home.open_add_new_song_wind)
 
     reproduce_icon=ft.Icon(name=ft.Icons.PLAY_ARROW_ROUNDED,color='#e3a112',size=45)
     reproduce_text=ft.Text(value="Воспроизвести",size=32,color='#e8eee7')

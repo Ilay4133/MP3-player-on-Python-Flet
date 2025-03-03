@@ -1,0 +1,48 @@
+from home_page_add_new_song_elements import *
+import flet as ft
+import sqlite3
+import shutil
+import os
+
+sohgs_mp3_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject5/songs_mp3_data"
+
+sohgs_img_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject5/songs_img_data"
+
+if not os.path.exists(sohgs_mp3_data_folder_path):
+    os.makedirs(sohgs_mp3_data_folder_path)
+
+if not os.path.exists(sohgs_img_data_folder_path):
+    os.makedirs(sohgs_img_data_folder_path)
+
+db = sqlite3.connect('User_songs_information.data')
+cur = db.cursor()
+cur.execute("""CREATE TABLE IF NOT EXISTS Songs (
+                name TEXT PRIMARY KEY,
+                author TEXT,
+                genre TEXT,
+                album TEXT,
+                path_to_mp3 TEXT,
+                path_to_img TEXT)""")
+cur.close()
+db.close()
+
+def add_new_song_to_data(e):
+    db = sqlite3.connect('Users_information.data')
+    cur = db.cursor()
+    values = (
+        str(song_name_field.value),
+        str(author_field.value),
+        str(genre_field.value),
+        str(album_field.value),
+
+    )
+    cur.execute(
+        "INSERT INTO Users (name, last_name, otchestvo, password, mail, age, pol, city) VALUES(?,?,?,?,?,?,?,?)",
+        values)
+    db.commit()
+
+
+
+
+
+songs_home_column=ft.Column([],scroll=ft.ScrollMode.ALWAYS)

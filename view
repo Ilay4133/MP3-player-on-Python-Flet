@@ -1,6 +1,8 @@
-import flet as ft
 from registration_and_login import *
 from registration_and_login_elements import *
+from home_page_logic import *
+import flet as ft
+
 
 def main(page: ft.Page):
     page.scroll = "always"
@@ -96,6 +98,37 @@ def main(page: ft.Page):
             back_start_but.visible = False
             page.update()
 
+    def select_but_chage(e):
+        if int(e.data)==0:
+            page_selecter_but.controls[5].color = '#688fa4';page_selecter_but.controls[1].color = '#688fa4';page_selecter_but.controls[2].color = '#688fa4'
+            page_selecter_but.controls[3].color = '#688fa4';page_selecter_but.controls[4].color = '#688fa4';page_selecter_but.controls[0].color = '#e8eee7'
+            page.update()
+
+        elif int(e.data)==1:
+            page_selecter_but.controls[0].color = '#688fa4';page_selecter_but.controls[5].color = '#688fa4';page_selecter_but.controls[2].color = '#688fa4'
+            page_selecter_but.controls[3].color = '#688fa4';page_selecter_but.controls[4].color = '#688fa4';page_selecter_but.controls[1].color = '#e8eee7'
+            page.update()
+
+        elif int(e.data)==2:
+            page_selecter_but.controls[0].color = '#688fa4';page_selecter_but.controls[1].color = '#688fa4';page_selecter_but.controls[5].color = '#688fa4'
+            page_selecter_but.controls[3].color = '#688fa4';page_selecter_but.controls[4].color = '#688fa4';page_selecter_but.controls[2].color = '#e8eee7'
+            page.update()
+
+        elif int(e.data)==3:
+            page_selecter_but.controls[0].color = '#688fa4';page_selecter_but.controls[1].color = '#688fa4';page_selecter_but.controls[2].color = '#688fa4'
+            page_selecter_but.controls[5].color = '#688fa4';page_selecter_but.controls[4].color = '#688fa4';page_selecter_but.controls[3].color = '#e8eee7'
+            page.update()
+
+        elif int(e.data)==4:
+            page_selecter_but.controls[0].color = '#688fa4';page_selecter_but.controls[1].color = '#688fa4';page_selecter_but.controls[2].color = '#688fa4'
+            page_selecter_but.controls[3].color = '#688fa4';page_selecter_but.controls[5].color = '#688fa4';page_selecter_but.controls[4].color = '#e8eee7'
+            page.update()
+
+        elif int(e.data)==5:
+            page_selecter_but.controls[0].color = '#688fa4';page_selecter_but.controls[1].color = '#688fa4';page_selecter_but.controls[2].color = '#688fa4'
+            page_selecter_but.controls[3].color = '#688fa4';page_selecter_but.controls[4].color = '#688fa4';page_selecter_but.controls[5].color = '#e8eee7'
+            page.update()
+
     def view_login(e):
         login_stat = login(1, name_field_login, pas_field_login)
         if login_stat == "snack_bar_open_whod":
@@ -115,6 +148,7 @@ def main(page: ft.Page):
             open_dlg()
         elif registration_stat == "snack_bar_open_reg":
             snack_bar_open_reg()
+
 
     # Элементы страницы регистрации
     reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
@@ -161,8 +195,8 @@ def main(page: ft.Page):
     page.update()
 
     # Элементы домашней страницы (страницы с песнями)________________________
-    page_selecter_but=ft.CupertinoSlidingSegmentedButton(width=1600,height=50,
-        bgcolor='#0b012e',thumb_color='#160454',on_change=None,
+    page_selecter_but=ft.CupertinoSlidingSegmentedButton(
+        width=1600,height=50,bgcolor='#0b012e',thumb_color='#160454',on_change=select_but_chage,
         controls=[
         ft.Text(value="Песни",size=40,color='#688fa4'),
         ft.Text(value="Плейлисты",size=40,color='#688fa4'),
@@ -175,31 +209,31 @@ def main(page: ft.Page):
     vert_divider_songs_menu = ft.VerticalDivider(width=935)
     divider_homa_page=ft.Divider(height=20,thickness=1,color='#0ba6bf')
 
-    search_icon_but=ft.IconButton(icon=ft.Icons.SEARCH_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Поиск в библиотеке")
-    design_icon_but=ft.IconButton(icon=ft.Icons.COLOR_LENS_ROUNDED,icon_size=50,icon_color='#0ba6bf',tooltip="Изменить тему")
-    menu_icon_but=ft.IconButton(icon=ft.Icons.MENU_OPEN_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Меню")
-    songs_list_icon_but=ft.IconButton(icon=ft.Icons.FORMAT_LIST_NUMBERED,icon_size=50,icon_color='#0ba6bf',tooltip="Выбрать песни")
-    sorting_icon_but=ft.IconButton(icon=ft.Icons.ALT_ROUTE_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Сортировать")
+    search_icon_but=ft.IconButton(icon=ft.Icons.SEARCH_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Поиск в библиотеке",hover_color='#00457d')
+    design_icon_but=ft.IconButton(icon=ft.Icons.COLOR_LENS_ROUNDED,icon_size=50,icon_color='#0ba6bf',tooltip="Изменить тему",hover_color='#00457d')
+    menu_icon_but=ft.IconButton(icon=ft.Icons.MENU_OPEN_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Меню",hover_color='#00457d')
+    songs_list_icon_but=ft.IconButton(icon=ft.Icons.FORMAT_LIST_NUMBERED,icon_size=50,icon_color='#0ba6bf',tooltip="Выбрать песни",hover_color='#00457d')
+    sorting_icon_but=ft.IconButton(icon=ft.Icons.ALT_ROUTE_SHARP,icon_size=50,icon_color='#0ba6bf',tooltip="Сортировать",hover_color='#00457d')
 
     reproduce_icon=ft.Icon(name=ft.Icons.PLAY_ARROW_ROUNDED,color='#e3a112',size=45)
     reproduce_text=ft.Text(value="Воспроизвести",size=32,color='#e8eee7')
     reproduce_but=ft.ElevatedButton(content=ft.Row([reproduce_icon,reproduce_text]),bgcolor='#01315c',
-                                      height=55,width=310)
+                                      height=55,width=310,style=ft.ButtonStyle(overlay_color='#036380'))
 
     random_sort_icon = ft.Icon(name=ft.Icons.SHUFFLE_SHARP, color='#e3a112', size=45)
     random_sort_text = ft.Text(value="Перемешать", size=32, color='#e8eee7')
     random_sort_but = ft.ElevatedButton(content=ft.Row([random_sort_icon, random_sort_text]), bgcolor='#01315c',
-                                        height=55, width=270)
+                                        height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'))
 
     songs_count_text=ft.Text(value="X Песен",size=31,color='#e8eee7')
+
     songs_count_text_cont=ft.Container(content=songs_count_text,padding=ft.Padding(top=0,left=15,right=0,bottom=0))
 
-    songs_home_column=ft.Column([],scroll=ft.ScrollMode.ALWAYS)
 
     home_menus_buttons=ft.Row([menu_icon_but,design_icon_but,search_icon_but,vert_divider_home_menu,page_selecter_but])
     songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])
 
-    home_page_column=ft.Column([home_menus_buttons,divider_homa_page,songs_menus_elements,songs_home_column])
+    home_page_column=ft.Column([home_menus_buttons,divider_homa_page,songs_menus_elements])
     page.add(home_page_column)
     page.update()
     page.padding=ft.Padding(top=40,left=30,right=30,bottom=0)

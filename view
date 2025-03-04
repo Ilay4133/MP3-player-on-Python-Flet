@@ -64,7 +64,8 @@ def main(page: ft.Page):
 
     class Open_home():
         def open_add_new_song_wind(e):
-            pass
+            page.open(add_new_song_dlg)
+            page.update()
         def open_select_songs_wind(e):
             pass
         def open_sort_songs_wind(e):
@@ -203,10 +204,43 @@ def main(page: ft.Page):
     start = ft.Column([go_to_reg, vhod_in_text, go_to_vhod, back_start_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
     start_column = ft.Container(content=start, alignment=ft.alignment.center, expand=True)
 
-    # Добавление всех контейнеров на страницу
     page.add(ft.Column([vhod_column, reg_column, start_column], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER, expand=True))
     Close_reg.back_start(1)
     page.update()
+    # Элементы окна добавления новой песни
+
+
+    add_path_to_mp3_but = ft.IconButton(icon=ft.Icons.AUDIO_FILE_ROUNDED,icon_size=70,tooltip="Добавить mp3 файл",
+                                        icon_color = '#0ba6bf', hover_color = '#00457d')
+    add_path_to_img_but = ft.IconButton(icon=ft.Icons.ADD_PHOTO_ALTERNATE_ROUNDED,icon_size=70,tooltip="Добавить иконку",
+                                        icon_color = '#0ba6bf', hover_color = '#00457d')
+    add_new_song_but = ft.ElevatedButton(content=ft.Text("Добавить песню",size=26, color='#e8eee7'),
+                                         bgcolor='#01315c',width=350,height=60,style=ft.ButtonStyle(overlay_color='#036380')
+                                         )
+    add_paths_row = ft.Row(controls=[add_path_to_mp3_but, add_path_to_img_but], alignment=ft.MainAxisAlignment.CENTER)
+
+    add_new_song_dlg = ft.AlertDialog(
+        modal=False,
+        title=ft.Text("Добавление новой песни", color='#e8eee7',size=32),
+        bgcolor='#14044d',
+        actions=[
+            ft.Column(
+                [
+                    song_name_field,
+                    author_field,
+                    genre_field,
+                    album_field,
+                    add_paths_row,
+                    add_new_song_but
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=10
+            )
+        ],
+        actions_alignment=ft.MainAxisAlignment.CENTER,
+    )
+
 
     # Элементы домашней страницы (страницы с песнями)________________________
     drawer = ft.NavigationDrawer(
@@ -268,7 +302,7 @@ def main(page: ft.Page):
                                   tooltip="Выбрать песни",hover_color='#00457d',on_click=Open_home.open_select_songs_wind)
     sorting_icon_but=ft.IconButton(icon=ft.Icons.ALT_ROUTE_SHARP,icon_size=50,icon_color='#0ba6bf',
                                   tooltip="Сортировать",hover_color='#00457d',on_click=Open_home.open_sort_songs_wind)
-    add_song_icon_but=ft.IconButton(icon=ft.Icons.ADD_CIRCLE_OUTLINE_ROUNDED,icon_size=50,icon_color='#0ba6bf',
+    add_new_song_icon_but=ft.IconButton(icon=ft.Icons.ADD_CIRCLE_OUTLINE_ROUNDED,icon_size=50,icon_color='#0ba6bf',
                                   tooltip="Добавить песню",hover_color='#00457d',on_click=Open_home.open_add_new_song_wind)
 
     reproduce_icon=ft.Icon(name=ft.Icons.PLAY_ARROW_ROUNDED,color='#e3a112',size=45)
@@ -287,13 +321,15 @@ def main(page: ft.Page):
 
 
     home_menus_buttons=ft.Row([menu_icon_but,design_icon_but,search_icon_but,vert_divider_home_menu,page_selecter_but])
-    songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])
+    songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_new_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])
 
     home_page_column=ft.Column([home_menus_buttons,divider_homa_page,songs_menus_elements])
     page.add(home_page_column)
+    page.add(add_new_song_dlg)
     page.update()
     page.padding=ft.Padding(top=20,left=30,right=30,bottom=0)
-    #start_column.visible=False
+    start_column.visible=False
+    page.close(add_new_song_dlg)
     page.update()
 
 

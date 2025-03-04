@@ -216,6 +216,7 @@ def main(page: ft.Page):
         bgcolor='#14044d',
         shadow_color='#0ba6bf',
         elevation=100,
+        tile_padding=0,
         indicator_shape=ft.ContinuousRectangleBorder(radius=20),
         controls=[
             ft.Container(height=12),
@@ -224,11 +225,16 @@ def main(page: ft.Page):
                 icon=ft.Icons.MY_LIBRARY_MUSIC_OUTLINED,
                 selected_icon=ft.Icon(ft.Icons.MY_LIBRARY_MUSIC_ROUNDED),
             ),
-            ft.Divider(thickness=2),
+            ft.Divider(thickness=1,color='#0ba6bf'),
             ft.NavigationDrawerDestination(
                 label="Эквалайзер",
-                icon=ft.Icon(ft.Icons.MAIL_OUTLINED),
-                selected_icon=ft.Icons.MAIL,
+                icon=ft.Icon(ft.Icons.TUNE_SHARP),
+                selected_icon=ft.Icons.TUNE_OUTLINED,
+            ),
+            ft.NavigationDrawerDestination(
+                label="Таймер сна",
+                icon=ft.Icon(ft.Icons.ACCESS_TIME_ROUNDED),
+                selected_icon=ft.Icons.ACCESS_TIME_FILLED_ROUNDED,
             ),
             ft.NavigationDrawerDestination(
                 label="Настройки",
@@ -287,7 +293,7 @@ def main(page: ft.Page):
     page.add(home_page_column)
     page.update()
     page.padding=ft.Padding(top=20,left=30,right=30,bottom=0)
-    start_column.visible=False
+    #start_column.visible=False
     page.update()
 
 

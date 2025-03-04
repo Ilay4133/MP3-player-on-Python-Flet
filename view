@@ -212,17 +212,25 @@ def main(page: ft.Page):
 
     add_path_to_mp3_but = ft.IconButton(icon=ft.Icons.AUDIO_FILE_ROUNDED,icon_size=70,tooltip="Добавить mp3 файл",
                                         icon_color = '#0ba6bf', hover_color = '#00457d')
+
     add_path_to_img_but = ft.IconButton(icon=ft.Icons.ADD_PHOTO_ALTERNATE_ROUNDED,icon_size=70,tooltip="Добавить иконку",
                                         icon_color = '#0ba6bf', hover_color = '#00457d')
-    add_new_song_but = ft.ElevatedButton(content=ft.Text("Добавить песню",size=26, color='#e8eee7'),
-                                         bgcolor='#01315c',width=350,height=60,style=ft.ButtonStyle(overlay_color='#036380')
+
+    add_new_song_but = ft.ElevatedButton(content=ft.Row([ft.Icon(name=ft.Icons.ADD_ROUNDED,color='#e8eee7',size=40),
+                                                         ft.Text("Добавить песню",size=26, color='#e8eee7')], alignment=ft.MainAxisAlignment.CENTER),
+                                         bgcolor='#01315c',width=350,height=60,style=ft.ButtonStyle(overlay_color='#036380',elevation=15,shadow_color='#0ba6bf'),
+                                         tooltip="Добавить песню в библиотеку"
                                          )
+
     add_paths_row = ft.Row(controls=[add_path_to_mp3_but, add_path_to_img_but], alignment=ft.MainAxisAlignment.CENTER)
 
     add_new_song_dlg = ft.AlertDialog(
         modal=False,
         title=ft.Text("Добавление новой песни", color='#e8eee7',size=32),
         bgcolor='#14044d',
+        shadow_color='#0ba6bf',
+        elevation=100,
+        shape=ft.ContinuousRectangleBorder(radius=60),
         actions=[
             ft.Column(
                 [

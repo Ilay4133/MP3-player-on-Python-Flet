@@ -6,8 +6,9 @@ import flet as ft
 
 
 def main(page: ft.Page):
-    page.scroll = "always"
-    page.title = "Регистрация"
+    page.scroll = ft.ScrollMode.ALWAYS
+    page.update()
+    page.title = "MP3-Player"
     page.bgcolor='#0b012e'
     page.theme_mode=ft.ThemeMode.DARK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали

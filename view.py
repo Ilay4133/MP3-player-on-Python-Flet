@@ -6,9 +6,8 @@ import flet as ft
 
 
 def main(page: ft.Page):
-    page.scroll = ft.ScrollMode.ALWAYS
-    page.update()
-    page.title = "MP3-Player"
+
+    page.title = "Регистрация"
     page.bgcolor='#0b012e'
     page.theme_mode=ft.ThemeMode.DARK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
@@ -209,19 +208,21 @@ def main(page: ft.Page):
     Close_reg.back_start(1)
     page.update()
     # Элементы окна добавления новой песни
-
+    mp3_file_picker = ft.FilePicker(on_result=pick_files_result_mp3)
+    img_file_picker = ft.FilePicker(on_result=pick_files_result_img)
 
     add_path_to_mp3_but = ft.IconButton(icon=ft.Icons.AUDIO_FILE_ROUNDED,icon_size=70,tooltip="Добавить mp3 файл",
-                                        icon_color = '#0ba6bf', hover_color = '#00457d')
+                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: mp3_file_picker.pick_files(allow_multiple=False))
 
     add_path_to_img_but = ft.IconButton(icon=ft.Icons.ADD_PHOTO_ALTERNATE_ROUNDED,icon_size=70,tooltip="Добавить иконку",
-                                        icon_color = '#0ba6bf', hover_color = '#00457d')
+                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: img_file_picker.pick_files(allow_multiple=False))
 
     add_new_song_but = ft.ElevatedButton(content=ft.Row([ft.Icon(name=ft.Icons.ADD_ROUNDED,color='#e8eee7',size=40),
                                                          ft.Text("Добавить песню",size=26, color='#e8eee7')], alignment=ft.MainAxisAlignment.CENTER),
                                          bgcolor='#01315c',width=350,height=60,style=ft.ButtonStyle(overlay_color='#036380',elevation=15,shadow_color='#0ba6bf'),
-                                         tooltip="Добавить песню в библиотеку"
-                                         )
+                                         tooltip="Добавить песню в библиотеку",on_click=add_new_song_to_data)
+
+
 
     add_paths_row = ft.Row(controls=[add_path_to_mp3_but, add_path_to_img_but], alignment=ft.MainAxisAlignment.CENTER)
 
@@ -299,7 +300,8 @@ def main(page: ft.Page):
 
     vert_divider_home_menu=ft.VerticalDivider(width=20)
     vert_divider_songs_menu = ft.VerticalDivider(width=885)
-    divider_homa_page=ft.Divider(height=20,thickness=1,color='#0ba6bf')
+    divider_home_page=ft.Divider(height=20,thickness=1,color='#0ba6bf')
+    divider_home_songs_page = ft.Divider(height=10, thickness=0 ,color='#0b012e')
 
     search_icon_but=ft.IconButton(icon=ft.Icons.SEARCH_SHARP,icon_size=50,icon_color='#0ba6bf',
                                   tooltip="Поиск в библиотеке",hover_color='#00457d',on_click=Open_home.open_search_song_wind)
@@ -332,13 +334,15 @@ def main(page: ft.Page):
     home_menus_buttons=ft.Row([menu_icon_but,design_icon_but,search_icon_but,vert_divider_home_menu,page_selecter_but])
     songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_new_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])
 
-    home_page_column=ft.Column([home_menus_buttons,divider_homa_page,songs_menus_elements])
-    page.add(home_page_column)
+    home_page_column=ft.Column([home_menus_buttons,divider_home_page,songs_menus_elements,divider_home_songs_page])
+    page.add(home_page_column,all_songs_column)
     page.add(add_new_song_dlg)
     page.update()
-    page.padding=ft.Padding(top=20,left=30,right=30,bottom=0)
+    page.padding=ft.Padding(top=20,left=30,right=30,bottom=80)
     start_column.visible=False
     page.close(add_new_song_dlg)
+    page.add(mp3_file_picker,img_file_picker)
+    update_songs_view()
     page.update()
 
 

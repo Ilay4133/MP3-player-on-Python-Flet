@@ -5,6 +5,7 @@ from home_page_add_new_song_elements import *
 import flet as ft
 
 
+
 def main(page: ft.Page):
 
     page.title = "Регистрация"
@@ -16,19 +17,24 @@ def main(page: ft.Page):
     page.update()
 
     def snack_bar_open():
-        page.snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#e8eee7'), bgcolor='#0c3348')
-        page.snack_bar.open = True
+        snack_bar = ft.SnackBar(ft.Text(value="Вы не заполнили все поля", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
         page.update()
 
     def snack_bar_open_whod():
-        page.snack_bar = ft.SnackBar(ft.Text(value="Нет такого пользователя", color='#e8eee7'), bgcolor='#0c3348')
-        page.snack_bar.open = True
+        snack_bar = ft.SnackBar(ft.Text(value="Нет такого пользователя", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
         page.update()
 
     def snack_bar_open_reg():
-        page.snack_bar = ft.SnackBar(ft.Text(value="Такой пользователь уже есть", color='#e8eee7'), bgcolor='#0c3348')
-        page.snack_bar.open = True
+        snack_bar = ft.SnackBar(ft.Text(value="Такой пользователь уже есть (SQLite database Error)", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
         page.update()
+
+
 
     class Open_reg():
         def open_user_panel(e):
@@ -165,6 +171,64 @@ def main(page: ft.Page):
             snack_bar_open_reg()
 
 
+    def add_song_snack_bar_open_no_mp3_data(page):
+        snack_bar = ft.SnackBar(ft.Text(value="Не выбран mp3 файл", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
+        page.update()
+
+    def add_song_snack_bar_open_no_img_data(page):
+        snack_bar=ft.SnackBar(ft.Text("Не выбран .png / .jpg файл", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
+        page.update()
+
+
+    def add_song_snack_bar_open_no_field_data(page):
+        snack_bar = ft.SnackBar(ft.Text(value="Не заполнены все поля", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
+        page.update()
+
+    def add_song_snack_bar_open_already(page):
+        snack_bar = ft.SnackBar(ft.Text(value="Такая песня уже есть (SQLite database Error)", color='#e8eee7'),
+                                     bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
+        page.update()
+    def open_song_snack_bar_new_song_added(page):
+        snack_bar = ft.SnackBar(ft.Text(value="Песня добавлена", color='#e8eee7'), bgcolor='#0c3348')
+        page.add(snack_bar)
+        page.open(snack_bar)
+        page.update()
+
+
+
+    def view_add_new_song_to_data(e):
+        add_new_song_return = add_new_song_to_data()
+        if add_new_song_return=="add_song_snack_bar_open_no_mp3_data":
+            page.close(add_new_song_dlg)
+            add_song_snack_bar_open_no_mp3_data(page)
+
+        elif add_new_song_return == "add_song_snack_bar_open_no_img_data":
+            page.close(add_new_song_dlg)
+            add_song_snack_bar_open_no_img_data(page)
+
+        elif add_new_song_return == "add_song_snack_bar_open_no_field_data":
+            page.close(add_new_song_dlg)
+            add_song_snack_bar_open_no_field_data(page)
+
+        elif add_new_song_return == "add_song_snack_bar_open_already":
+            page.close(add_new_song_dlg)
+            add_song_snack_bar_open_already(page)
+
+        elif add_new_song_return == "open_song_snack_bar_new_song_added":
+            page.close(add_new_song_dlg)
+            open_song_snack_bar_new_song_added(page)
+
+        page.update()
+
+
     # Элементы страницы регистрации
     reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
                                 on_click=view_registration,
@@ -212,15 +276,17 @@ def main(page: ft.Page):
     img_file_picker = ft.FilePicker(on_result=pick_files_result_img)
 
     add_path_to_mp3_but = ft.IconButton(icon=ft.Icons.AUDIO_FILE_ROUNDED,icon_size=70,tooltip="Добавить mp3 файл",
-                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: mp3_file_picker.pick_files(allow_multiple=False))
+                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: mp3_file_picker.pick_files(
+            allow_multiple=False,allowed_extensions=["mp3"]))
 
     add_path_to_img_but = ft.IconButton(icon=ft.Icons.ADD_PHOTO_ALTERNATE_ROUNDED,icon_size=70,tooltip="Добавить иконку",
-                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: img_file_picker.pick_files(allow_multiple=False))
+                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: img_file_picker.pick_files(
+            allow_multiple=False,allowed_extensions=["png","jpg"]))
 
     add_new_song_but = ft.ElevatedButton(content=ft.Row([ft.Icon(name=ft.Icons.ADD_ROUNDED,color='#e8eee7',size=40),
                                                          ft.Text("Добавить песню",size=26, color='#e8eee7')], alignment=ft.MainAxisAlignment.CENTER),
                                          bgcolor='#01315c',width=350,height=60,style=ft.ButtonStyle(overlay_color='#036380',elevation=15,shadow_color='#0ba6bf'),
-                                         tooltip="Добавить песню в библиотеку",on_click=add_new_song_to_data)
+                                         tooltip="Добавить песню в библиотеку",on_click=view_add_new_song_to_data)
 
 
 
@@ -343,6 +409,7 @@ def main(page: ft.Page):
     page.close(add_new_song_dlg)
     page.add(mp3_file_picker,img_file_picker)
     update_songs_view()
+
     page.update()
 
 

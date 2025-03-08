@@ -14,11 +14,11 @@ album_field=ft.TextField(value="", label="Альбом",label_style=ft.TextStyle
                         cursor_color='#00718f',focused_border_color='#0ba6bf',border_radius=10,text_style=ft.TextStyle(color='#e8eee7',size=29),
                              border_width=2,selection_color='#81bece',cursor_width=4)
 
+all_songs_column=ft.Column(controls=[],scroll=ft.ScrollMode.ALWAYS,height=700)
+
 def click_on_cong(e):
     print(e.control.title.value)
-    if e.control.title.value=='Anime5':
+    if e.control.title.value == 'Anime5':
         print('hello')
-
-all_songs_column=ft.Column(controls=[],scroll=ft.ScrollMode.ALWAYS,height=700)
 
 

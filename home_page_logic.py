@@ -95,28 +95,28 @@ def update_songs_view():
 
     for i in songs:
         list_tile = ft.CupertinoListTile(
-            additional_info=ft.Text(value=f"no data"),
+            additional_info=ft.Text(value=f"no data",color='#e8eee7',size=22),
             leading=ft.Image(
                 src="https://murkosha.ru/sites/default/files/styles/adaptive/public/news/2022/nikitis_i_sedrik.jpg?itok=KOsbDKW6",
                 height=80, width=80, fit=ft.ImageFit.COVER, border_radius=15),
             leading_size=80,
             leading_to_title=18,
-            title=ft.Text(value=f"no data"),
-            subtitle=ft.Text(value=f"no data"),
+            title=ft.Text(value=f"no data",color='#e8eee7',size=35),
+            subtitle=ft.Text(value=f"no data",color='#a1a6a1',size=19),
             on_click=click_on_cong,
             height=90,
         )
         all_songs_column.controls.append(list_tile)
         all_songs_column.controls.append(ft.Divider())
-    print(len(all_songs_column.controls)//2)
+
 
 
     for i in all_songs_column.controls[::2]:
         element_index = all_songs_column.controls.index(i)
-        i.additional_info.value=f"{songs[element_index//2][4]}"
+        i.additional_info.value=f"{songs[element_index//2][4]}          "
         i.leading.src=f"{songs[element_index//2][6]}"
         i.title.value=f"{songs[element_index//2][0]}"
-        i.subtitle.value=f"{songs[element_index//2][1]}"
+        i.subtitle.value=f"{songs[element_index//2][1]} - {songs[element_index//2][3]}"
     all_songs_column.update()
     cur.close()
     db.close()
@@ -133,7 +133,10 @@ def pick_files_result_mp3(e: ft.FilePickerResultEvent):
             audio = MP3(f"{songs_mp3_data_folder_path}/{mp3_file_name}")
             length_in_seconds = audio.info.length
             minutes = int(length_in_seconds // 60)
-            seconds = int(length_in_seconds % 60)
+            if int(length_in_seconds % 60)>10:
+                seconds = f"0{int(length_in_seconds % 60)}"
+            else:
+                seconds = int(length_in_seconds % 60)
             audio_length = f"{minutes}:{seconds}"
         except Exception as ex:
             return ex

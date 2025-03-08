@@ -45,26 +45,23 @@ cur.close()
 db.close()
 
 
-def add_new_song_to_data(e):
+def add_new_song_to_data():
     global mp3_file_name, img_file_name, audio_length, selected_file_img, selected_file_mp3
     if img_file_name == None:
         print("BAD_img")
-        return "add_song_snack_bar_open_no_mp3_data"
+        return "add_song_snack_bar_open_no_img_data"
     elif mp3_file_name == None:
         print("BAD_mp3")
-        return "add_song_snack_bar_open_no_img_data"
+        return "add_song_snack_bar_open_no_mp3_data"
 
     path_to_img = f"{songs_img_data_folder_path}/{img_file_name}" if img_file_name else ""
     path_to_mp3 = f"{songs_mp3_data_folder_path}/{mp3_file_name}" if mp3_file_name else ""
-    print(path_to_mp3,path_to_img)
-    print(audio_length)
 
     if any(field.value == "" for field in [song_name_field, author_field, genre_field, album_field]):
         print("add_song_snack_bar_open_no_field_data")
         return "add_song_snack_bar_open_no_field_data"
     else:
         try:
-            return 0
             db = sqlite3.connect('User_songs_information.data')
             cur = db.cursor()
             values = (
@@ -76,48 +73,51 @@ def add_new_song_to_data(e):
                 path_to_mp3,
                 path_to_img
             )
-            cur.execute("INSERT INTO Songs_data (name, author, genre, album, mp3_file_long, path_to_mp3, path_to_img) VALUES(?,?,?,?,?,?,?,?)",
+            cur.execute("INSERT INTO Songs_data (name, author, genre, album, mp3_file_long, path_to_mp3, path_to_img) VALUES(?,?,?,?,?,?,?)",
                         values)
             db.commit()
-
-            return "open_song_snack_bar_new_song_added"
         except sqlite3.Error as e:
             return "add_song_snack_bar_open_already"
         finally:
             cur.close()
             db.close()
+            update_songs_view()
+            return "open_song_snack_bar_new_song_added"
 
 
 def update_songs_view():
-    j = 1
+    all_songs_column.controls.clear()
     db = sqlite3.connect('User_songs_information.data')
     cur = db.cursor()
     cur.execute("SELECT * FROM Songs_data")
     songs = cur.fetchall()
-    print(songs)
 
-    for i in range(40):
+
+    for i in songs:
         list_tile = ft.CupertinoListTile(
-            additional_info=ft.Text("0"),
+            additional_info=ft.Text(value=f"no data"),
             leading=ft.Image(
                 src="https://murkosha.ru/sites/default/files/styles/adaptive/public/news/2022/nikitis_i_sedrik.jpg?itok=KOsbDKW6",
                 height=80, width=80, fit=ft.ImageFit.COVER, border_radius=15),
             leading_size=80,
             leading_to_title=18,
-            title=ft.Text("0"),
-            subtitle=ft.Text("0"),
-            trailing=ft.Icon(name=ft.cupertino_icons.ALARM),
+            title=ft.Text(value=f"no data"),
+            subtitle=ft.Text(value=f"no data"),
             on_click=click_on_cong,
             height=90,
         )
         all_songs_column.controls.append(list_tile)
         all_songs_column.controls.append(ft.Divider())
-    for i in all_songs_column.controls:
-        if isinstance(i, ft.CupertinoListTile):
-            i.title = ft.Text(value=f"Anime{j}")
-            j += 1
-            print(i.title)
+    print(len(all_songs_column.controls)//2)
 
+
+    for i in all_songs_column.controls[::2]:
+        element_index = all_songs_column.controls.index(i)
+        i.additional_info.value=f"{songs[element_index//2][4]}"
+        i.leading.src=f"{songs[element_index//2][6]}"
+        i.title.value=f"{songs[element_index//2][0]}"
+        i.subtitle.value=f"{songs[element_index//2][1]}"
+    all_songs_column.update()
     cur.close()
     db.close()
 

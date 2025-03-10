@@ -2,6 +2,7 @@ from registration_and_login import *
 from registration_and_login_elements import *
 from home_page_logic import *
 from home_page_add_new_song_elements import *
+from song_player_page_logic import *
 import flet as ft
 
 
@@ -10,6 +11,7 @@ def main(page: ft.Page):
 
     page.title = "Регистрация"
     page.bgcolor='#0b012e'
+    page.scroll=ft.ScrollMode.ALWAYS
     page.theme_mode=ft.ThemeMode.DARK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
@@ -319,9 +321,71 @@ def main(page: ft.Page):
         ],
         actions_alignment=ft.MainAxisAlignment.CENTER,
     )
+    # Элементы страницы проигрывателя песни____________________________________________________________________________________________________________________
 
+    song_player_slider_segment_but = ft.CupertinoSlidingSegmentedButton(
+        width=400, height=40, bgcolor='#0b012e', thumb_color='#160454', on_change=None,
+        controls=[
+            ft.Text(value="Песня", size=30, color='#688fa4'),
+            ft.Text(value="Текст", size=30, color='#688fa4')])
 
-    # Элементы домашней страницы (страницы с песнями)________________________
+    song_player_img = ft.Image(src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
+                               height=500, width=500, fit=ft.ImageFit.COVER)
+
+    song_player_name_text = ft.Text(value="НАЗВАНИЕ",selectable=True,size=50, color='#e8eee7')
+    song_player_author_genre_text = ft.Text(value="АВТОР - ЖАНР",selectable=True,size=50, color='#e8eee7')
+    song_player_song_text = ft.Text(value="ТЕКСТ ПЕСНИ",selectable=True, color='#e8eee7')
+
+    song_like_icon_but = ft.IconButton(icon=ft.Icons.FAVORITE_BORDER_ROUNDED, icon_size=50,tooltip="Добавить в избранное"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d') #Icons.FAVORITE_ROUNDED
+    song_add_to_playlist_icon_but = ft.IconButton(icon=ft.Icons.LIBRARY_ADD_ROUNDED, icon_size=50, tooltip="Добавить в плейлист"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_ecvalizer_icon_but = ft.IconButton(icon=ft.Icons.TUNE_ROUNDED, icon_size=50, tooltip="Эквалайзер"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_timer_icon_but = ft.IconButton(icon=ft.Icons.ACCESS_TIME_ROUNDED, icon_size=50, tooltip="Остановить музыку через ..."
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    songs_queue_icon_but = ft.IconButton(icon=ft.Icons.FORMAT_INDENT_INCREASE_ROUNDED, icon_size=50, tooltip="Очередь"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    back_song_time_icon_but = ft.IconButton(icon=ft.Icons.REPLAY_10_ROUNDED, icon_size=50, tooltip="-10 сек."
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    forward_song_time_icon_but = ft.IconButton(icon=ft.Icons.FORWARD_10_ROUNDED, icon_size=50, tooltip="+10 сек."
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_player_design_icon_but = ft.IconButton(icon=ft.Icons.COLOR_LENS_ROUNDED, icon_size=50, tooltip="Изменить тему"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_player_additinol_icon_but = ft.IconButton(icon=ft.Icons.MORE_VERT_ROUNDED, icon_size=50, tooltip="Дополнительно"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+
+    song_play_slider = ft.Slider()
+
+    song_player_random_sort_icon_but = ft.IconButton(icon=ft.Icons.SHUFFLE_SHARP, icon_size=50, tooltip="Перемешать"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_player_previous_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_PREVIOUS_ROUNDED, icon_size=50, tooltip="Предыдущая "
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED, icon_size=50, tooltip="Запустить"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d') #Icons.PAUSE_CIRCLE_ROUNDED
+    song_player_next_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_NEXT_ROUNDED, icon_size=50, tooltip="Следующая"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d')
+    song_player_repeat_songs = ft.IconButton(icon=ft.Icons.REPEAT_ROUNDED, icon_size=50, tooltip="Повторять"
+                                        ,icon_color='#0ba6bf',hover_color='#00457d') #Icons.REPEAT_ONE_ROUNDED
+
+    first_song_player_row = ft.Row(
+        controls=[song_player_slider_segment_but, song_player_design_icon_but, song_player_additinol_icon_but])
+    second_song_player_row = ft.Row(
+        controls=[song_like_icon_but, song_add_to_playlist_icon_but, song_ecvalizer_icon_but,song_timer_icon_but, songs_queue_icon_but])
+    third_song_player_row = ft.Row(controls=[back_song_time_icon_but, song_play_slider, forward_song_time_icon_but])
+    fourth_song_player_row = ft.Row(
+        controls=[song_player_random_sort_icon_but, song_player_previous_song_icon_but, song_player_play_song_icon_but,
+                  song_player_next_song_icon_but, song_player_repeat_songs])
+
+    song_player_column = ft.Column(
+        controls=[song_player_name_text, song_player_author_genre_text,
+                  second_song_player_row, third_song_player_row, fourth_song_player_row],alignment=ft.MainAxisAlignment.START,
+                                       horizontal_alignment=ft.CrossAxisAlignment.START,height=500)
+    song_player_row = ft.Row(controls=[song_player_img, song_player_column])
+    sec_song_player_column = ft.Column(controls=[first_song_player_row, song_player_row],alignment=ft.MainAxisAlignment.START,
+                                       horizontal_alignment=ft.CrossAxisAlignment.START)
+
+    # Элементы домашней страницы (страницы с песнями)__________________________________________________________________________________________________________
     drawer = ft.NavigationDrawer(
         on_dismiss=lambda e: print("close"),
         on_change=lambda e:print(e),
@@ -412,7 +476,10 @@ def main(page: ft.Page):
     page.close(add_new_song_dlg)
     page.add(mp3_file_picker,img_file_picker)
     update_songs_view()
-
+    page.update()
+    page.add(sec_song_player_column)
+    page.update()
+    all_songs_column.visible=False
     page.update()
 
 

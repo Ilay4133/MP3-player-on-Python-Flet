@@ -3,6 +3,7 @@ import flet as ft
 import sqlite3
 import shutil
 import os
+import random
 from mutagen.mp3 import MP3
 
 # Инициализация глобальных переменных
@@ -157,5 +158,19 @@ def pick_files_result_img(e: ft.FilePickerResultEvent):
     else:
         return "snack_bar_file_not_caught"
 
+def random_sort_all_songs_column():
+    songs = [item for item in all_songs_column.controls if isinstance(item, ft.CupertinoListTile)]
+    dividers = [item for item in all_songs_column.controls if isinstance(item, ft.Divider)]
+    random.shuffle(songs)
+    random_song_column = []
+    song_index = 0
+    for item in all_songs_column.controls:
+        if isinstance(item, ft.Divider):
+            random_song_column.append(item)
+        else:
+            random_song_column.append(songs[song_index])
+            song_index += 1
+
+    return random_song_column
 
 songs_home_column = ft.Column([], scroll=ft.ScrollMode.ALWAYS)

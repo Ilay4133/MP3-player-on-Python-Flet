@@ -225,9 +225,12 @@ def main(page: ft.Page):
         elif add_new_song_return == "open_song_snack_bar_new_song_added":
             page.close(add_new_song_dlg)
             open_song_snack_bar_new_song_added(page)
-
         page.update()
 
+    def view_random_sort_all_songs_column(e):
+        rundom_songs_items = random_sort_all_songs_column()
+        all_songs_column.controls = rundom_songs_items
+        page.update()
 
     # Элементы страницы регистрации
     reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
@@ -390,7 +393,7 @@ def main(page: ft.Page):
     random_sort_icon = ft.Icon(name=ft.Icons.SHUFFLE_SHARP, color='#e3a112', size=45)
     random_sort_text = ft.Text(value="Перемешать", size=32, color='#e8eee7')
     random_sort_but = ft.ElevatedButton(content=ft.Row([random_sort_icon, random_sort_text]), bgcolor='#01315c',
-                                        height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'))
+                                        height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'),on_click=view_random_sort_all_songs_column)
 
     songs_count_text=ft.Text(value="X Песен",size=31,color='#e8eee7')
 

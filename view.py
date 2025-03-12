@@ -5,6 +5,8 @@ from home_page_add_new_song_elements import *
 from song_player_page_logic import *
 import flet as ft
 
+
+
 def main(page: ft.Page):
 
     page.title = "MP3 - Player"
@@ -482,6 +484,7 @@ def main(page: ft.Page):
         subtitle=ft.Text(value=f"TEST AUHTOR - TEST GENRE", color='#a1a6a1', size=19),
         on_click=click_on_cong,
         height=110,
+        bgcolor='#14044d',
     )
     test222 = ft.Image(
         src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",

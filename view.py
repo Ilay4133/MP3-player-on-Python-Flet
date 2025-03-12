@@ -9,7 +9,7 @@ import flet as ft
 
 def main(page: ft.Page):
 
-    page.title = "Регистрация"
+    page.title = "MP3 - Player"
     page.bgcolor='#0b012e'
     page.scroll=ft.ScrollMode.ALWAYS
     page.theme_mode=ft.ThemeMode.DARK
@@ -174,7 +174,7 @@ def main(page: ft.Page):
 
 
     def add_song_snack_bar_open_no_mp3_data(page):
-        snack_bar = ft.SnackBar(ft.Text(value="Не выбран mp3 файл", color='#e8eee7'), bgcolor='#0c3348')
+        snack_bar = ft.SnackBar(ft.Text(value="Не выбран .mp3 файл", color='#e8eee7'), bgcolor='#0c3348')
         page.add(snack_bar)
         page.open(snack_bar)
         page.update()

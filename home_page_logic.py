@@ -21,15 +21,15 @@ selected_file_mp3 = None
 
 
 # Пути к папкам
-songs_mp3_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject5/songs_mp3_data"
-songs_img_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject5/songs_img_data"
+songs_mp3_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject3/songs_mp3_data"
+songs_img_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject/songs_img_data"
 
 # Создание папок, если они не существуют
-if not os.path.exists(songs_mp3_data_folder_path):
-    os.makedirs(songs_mp3_data_folder_path)
-
-if not os.path.exists(songs_img_data_folder_path):
-    os.makedirs(songs_img_data_folder_path)
+#if not os.path.exists(songs_mp3_data_folder_path):
+#    os.makedirs(songs_mp3_data_folder_path)
+#
+#if not os.path.exists(songs_img_data_folder_path):
+#    os.makedirs(songs_img_data_folder_path)
 
 # Подключение к базе данных
 db = sqlite3.connect('User_songs_information.data')
@@ -86,12 +86,13 @@ def add_new_song_to_data():
             return "open_song_snack_bar_new_song_added"
 
 
-def update_songs_view():
+def update_songs_view(songs_count_text):
     all_songs_column.controls.clear()
     db = sqlite3.connect('User_songs_information.data')
     cur = db.cursor()
     cur.execute("SELECT * FROM Songs_data")
     songs = cur.fetchall()
+
 
 
     for i in songs:
@@ -109,6 +110,7 @@ def update_songs_view():
         )
         all_songs_column.controls.append(list_tile)
         all_songs_column.controls.append(ft.Divider())
+    songs_count_text.value=f"{len(songs)} Песен"
 
 
 

@@ -458,24 +458,51 @@ def main(page: ft.Page):
     random_sort_text = ft.Text(value="Перемешать", size=32, color='#e8eee7')
     random_sort_but = ft.ElevatedButton(content=ft.Row([random_sort_icon, random_sort_text]), bgcolor='#01315c',
                                         height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'),on_click=view_random_sort_all_songs_column)
-
     songs_count_text=ft.Text(value="X Песен",size=31,color='#e8eee7')
 
-    songs_count_text_cont=ft.Container(content=songs_count_text,padding=ft.Padding(top=0,left=15,right=0,bottom=0))
 
+#Элементы окна мини проигрывателя песни_________________________________________________________________________________
+
+    songs_count_text_cont=ft.Container(content=songs_count_text,padding=ft.Padding(top=0,left=15,right=0,bottom=0))
+    song_bar_song_name_text=ft.Text(value="TEST NAME",size=26,color='#e8eee7')
+    song_bar_song_author_genre_text=ft.Text(value="TEST AUHTOR - TEST GENRE",size=22,color='#b4bfb2')
+    song_bar_song_img = ft.Image(
+        src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
+        height=100, width=100, fit=ft.ImageFit.COVER)
+    song_bar_texts_column=ft.Column(controls=[song_bar_song_name_text,song_bar_song_author_genre_text])
+    song_bar_row=ft.Row(controls=[song_bar_song_img,song_bar_texts_column])
+    song_bar_cont=ft.Container(content=song_bar_row,height=100,width=1900, bgcolor='#14044d')
+
+    song_bar_list_tile= ft.CupertinoListTile(
+        additional_info=ft.Text(value=f"no data", color='#e8eee7', size=22),
+        leading=ft.Image(
+            src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
+            height=100, width=100, fit=ft.ImageFit.COVER, border_radius=15),
+        leading_size=100,
+        leading_to_title=18,
+        title=ft.Text(value=f"TEST NAME", color='#e8eee7', size=35),
+        subtitle=ft.Text(value=f"TEST AUHTOR - TEST GENRE", color='#a1a6a1', size=19),
+        on_click=click_on_cong,
+        height=110,
+    )
+    test222 = ft.Image(
+        src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
+        height=400, width=1900, fit=ft.ImageFit.COVER)
 
     home_menus_buttons=ft.Row([menu_icon_but,design_icon_but,search_icon_but,vert_divider_home_menu,page_selecter_but])
     songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_new_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])
-
+    songs_list_stack=ft.Stack(controls=[test222,song_bar_list_tile])
+    page.update()
+    page.add(all_songs_column)
     home_page_column=ft.Column([home_menus_buttons,divider_home_page,songs_menus_elements,divider_home_songs_page])
-    page.add(home_page_column,all_songs_column)
+    page.add(home_page_column,songs_list_stack)
     page.add(add_new_song_dlg)
     page.update()
     page.padding=ft.Padding(top=20,left=30,right=30,bottom=80)
     start_column.visible=False
     page.close(add_new_song_dlg)
     page.add(mp3_file_picker,img_file_picker)
-    update_songs_view()
+    update_songs_view(songs_count_text)
     page.update()
     page.add(sec_song_player_column)
     page.update()

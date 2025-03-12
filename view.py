@@ -5,8 +5,6 @@ from home_page_add_new_song_elements import *
 from song_player_page_logic import *
 import flet as ft
 
-
-
 def main(page: ft.Page):
 
     page.title = "MP3 - Player"
@@ -452,12 +450,12 @@ def main(page: ft.Page):
     reproduce_icon=ft.Icon(name=ft.Icons.PLAY_ARROW_ROUNDED,color='#e3a112',size=45)
     reproduce_text=ft.Text(value="Воспроизвести",size=32,color='#e8eee7')
     reproduce_but=ft.ElevatedButton(content=ft.Row([reproduce_icon,reproduce_text]),bgcolor='#01315c',
-                                      height=55,width=310,style=ft.ButtonStyle(overlay_color='#036380'))
+                                  height=55,width=310,style=ft.ButtonStyle(overlay_color='#036380'))
 
     random_sort_icon = ft.Icon(name=ft.Icons.SHUFFLE_SHARP, color='#e3a112', size=45)
     random_sort_text = ft.Text(value="Перемешать", size=32, color='#e8eee7')
     random_sort_but = ft.ElevatedButton(content=ft.Row([random_sort_icon, random_sort_text]), bgcolor='#01315c',
-                                        height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'),on_click=view_random_sort_all_songs_column)
+                                  height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'),on_click=view_random_sort_all_songs_column)
     songs_count_text=ft.Text(value="X Песен",size=31,color='#e8eee7')
 
 
@@ -488,6 +486,8 @@ def main(page: ft.Page):
     test222 = ft.Image(
         src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
         height=400, width=1900, fit=ft.ImageFit.COVER)
+    #Нужно заменить test222 на all_page_column (колона всей страницы (может не получиться))
+    #Либо заменить на all_songs_column (колона всех песен, но придеться для каждой стрницы делать свой ft.Stack)
 
     home_menus_buttons=ft.Row([menu_icon_but,design_icon_but,search_icon_but,vert_divider_home_menu,page_selecter_but])
     songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_new_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])

@@ -2,7 +2,7 @@ import sqlite3
 import hashlib
 db = sqlite3.connect('Users_information.data')
 cur = db.cursor()
-cur.execute("""CREATE TABLE IF NOT EXISTS Users (
+cur.execute("""CREATE TABLE IF NOT EXISTS Users_data (
                 name TEXT PRIMARY KEY,
                 last_name TEXT,
                 otchestvo TEXT,
@@ -10,7 +10,8 @@ cur.execute("""CREATE TABLE IF NOT EXISTS Users (
                 mail TEXT,
                 age INTEGER,
                 pol TEXT,
-                city TEXT)""")
+                city TEXT
+                playlists_dict)""")
 cur.close()
 db.close()
 
@@ -33,14 +34,16 @@ def registration(e,name_field_reg, last_name_field_reg, otchestvo_field_reg, pas
                 str(mail_field.value),
                 int(age_field_reg.value),
                 str(pol_vebor.value),
-                str(city_field_reg.value)
+                str(city_field_reg.value),
+                '-'
             )
             cur.execute(
-                "INSERT INTO Users (name, last_name, otchestvo, password, mail, age, pol, city) VALUES(?,?,?,?,?,?,?,?)",
+                "INSERT INTO Users_data (name, last_name, otchestvo, password, mail, age, pol, city, playlist_dict) VALUES(?,?,?,?,?,?,?,?,?)",
                 values)
             db.commit()
             return "open_dialg"
         except sqlite3.Error as e:
+            print(e)
             return "snack_bar_open_reg"
         finally:
             cur.close()
@@ -52,7 +55,7 @@ def login(e,name_field_login,pas_field_login):
     admin_pas = "b923a2f0d6052eb1c0b219b2ebbeadc9726793936ddb8d19d9665cb9acc664b646d759cb5a4d209aeb662350381b6927b8b41027e0d452989330073d22d8f3a3"
     db = sqlite3.connect('Users_information.data')
     cur = db.cursor()
-    cur.execute("SELECT * FROM Users WHERE name=?", (name_field_login.value,))
+    cur.execute("SELECT * FROM Users_data WHERE name=?", (name_field_login.value,))
     user = cur.fetchall()
     if user == []:
         return "snack_bar_open_whod"

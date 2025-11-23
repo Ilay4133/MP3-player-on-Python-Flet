@@ -24,7 +24,7 @@ selected_file_mp3 = None
 songs_mp3_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject3/songs_mp3_data"
 songs_img_data_folder_path = "C:/Users/User/PycharmProjects/pythonProject/songs_img_data"
 
-Создание папок, если они не существуют
+
 if not os.path.exists(songs_mp3_data_folder_path):
     os.makedirs(songs_mp3_data_folder_path)
 

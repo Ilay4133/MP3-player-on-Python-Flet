@@ -1,8 +1,7 @@
-from registration_and_login import *
+from App_Logic.Registration_Logic.registration_and_login import *
 from registration_and_login_elements import *
-from home_page_logic import *
+from App_Logic.Home_Page_Logic.home_page_logic import *
 from home_page_add_new_song_elements import *
-from song_player_page_logic import *
 import flet as ft
 
 
@@ -227,6 +226,7 @@ def main(page: ft.Page):
         elif add_new_song_return == "open_song_snack_bar_new_song_added":
             page.close(add_new_song_dlg)
             open_song_snack_bar_new_song_added(page)
+        update_songs_view(songs_count_text)
         page.update()
 
     def view_random_sort_all_songs_column(e):

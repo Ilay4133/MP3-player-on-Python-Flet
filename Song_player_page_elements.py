@@ -34,8 +34,16 @@ song_play_slider = ft.Slider(width=950, max=100, min=0, secondary_active_color='
 
 # __________________________________
 
-def pasue_and_resume(e):
-    if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED
+def pause_and_resume(e):
+    if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED:
+        song_audio.pause()
+        song_player_play_song_icon_but.icon = ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED
+        
+        
+    elif song_player_play_song_icon_but.icon == ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED:
+        song_audio.resume()
+        song_player_play_song_icon_but.icon = ft.Icons.PAUSE_CIRCLE_ROUNDED
+    song_player_play_song_icon_but.update()
 
 def volume_down(_):
     song_audio.volume -= 0.1
@@ -55,10 +63,6 @@ def balance_left(_):
 def balance_right(_):
     song_audio.balance += 0.1
     song_audio.update()
-
-
-def play(_):
-    song_audio.play()
 
 
 def pause(_):
@@ -84,6 +88,9 @@ def get_duration(_):
 def get_position(_):
     print("Current position:", song_audio.get_current_position())
 
+def plus():
+    song_play_slider.value += 0.01
+
 
 song_audio = fa.Audio(
     src=song_mp3_file,
@@ -92,7 +99,7 @@ song_audio = fa.Audio(
     balance=0,
     on_loaded=lambda _: print("Loaded"),
     on_duration_changed=lambda e: print("Duration changed:", e.data),
-    on_position_changed=lambda e: print("Position changed:", e.data),
+    on_position_changed=plus(),
     on_state_changed=lambda e: print("State changed:", e.data),
     on_seek_complete=lambda _: print("Seek complete"),
 )

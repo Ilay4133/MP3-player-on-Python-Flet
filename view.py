@@ -16,7 +16,7 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
     page.pading=ft.padding.all(100)
-    page.overlay.append()
+    page.overlay.append(song_audio)
     page.update()
 
     def snack_bar_open():
@@ -215,10 +215,13 @@ def main(page: ft.Page):
         song_player_img.src=song_list[6]
         song_player_name_text.value=song_list[0]
         song_player_author_genre_text.value=f"{song_list[1]} - {song_list[2]}"
+        song_audio.src = song_list[5]
+        song_audio.play()
         song_player_song_text.value="ТЕКСТ ПЕСНИ"
         all_songs_column.visible = False
         sec_song_player_column.visible = True
         page.update()
+        song_audio.play()
 
 
     def update_songs_view(songs_count_text):

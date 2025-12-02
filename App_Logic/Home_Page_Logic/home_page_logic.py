@@ -21,8 +21,8 @@ selected_file_mp3: None
 
 
 # Пути к папкам
-songs_mp3_data_folder_path = "../../App_Data/Songs_Data/songs_mp3_data"
-songs_img_data_folder_path = "../../App_Data/Songs_Data/songs_img_data"
+songs_mp3_data_folder_path = "C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_mp3_data"
+songs_img_data_folder_path = "C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_img_data"
 
 
 if not os.path.exists(songs_mp3_data_folder_path):
@@ -32,7 +32,7 @@ if not os.path.exists(songs_img_data_folder_path):
     os.makedirs(songs_img_data_folder_path)
 
 # Подключение к базе данных
-db = sqlite3.connect('../../User_songs_information.data')
+db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
 cur = db.cursor()
 cur.execute("""CREATE TABLE IF NOT EXISTS Songs_data (
                 name TEXT PRIMARY KEY,
@@ -63,7 +63,7 @@ def add_new_song_to_data():
         return "add_song_snack_bar_open_no_field_data"
     else:
         try:
-            db = sqlite3.connect('../../User_songs_information.data')
+            db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
             cur = db.cursor()
             values = (
                 str(song_name_field.value),
@@ -88,7 +88,7 @@ def add_new_song_to_data():
 
 def update_songs_view(songs_count_text):
     all_songs_column.controls.clear()
-    db = sqlite3.connect('../../User_songs_information.data')
+    db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
     cur = db.cursor()
     cur.execute("SELECT * FROM Songs_data")
     songs = cur.fetchall()
@@ -135,7 +135,7 @@ def pick_files_result_mp3(e: ft.FilePickerResultEvent):
             audio = MP3(f"{songs_mp3_data_folder_path}/{mp3_file_name}")
             length_in_seconds = audio.info.length
             minutes = int(length_in_seconds // 60)
-            if int(length_in_seconds % 60)>10:
+            if int(length_in_seconds % 60)<10:
                 seconds = f"0{int(length_in_seconds % 60)}"
             else:
                 seconds = int(length_in_seconds % 60)

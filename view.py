@@ -382,8 +382,10 @@ def main(page: ft.Page):
                   second_song_player_row, third_song_player_row, fourth_song_player_row],alignment=ft.MainAxisAlignment.START,
                                        horizontal_alignment=ft.CrossAxisAlignment.START,height=500)
     song_player_row = ft.Row(controls=[song_player_img, song_player_column])
+
     sec_song_player_column = ft.Column(controls=[first_song_player_row, song_player_row],alignment=ft.MainAxisAlignment.START,
                                        horizontal_alignment=ft.CrossAxisAlignment.START)
+    sec_song_player_column.visible = False
 
     # Элементы домашней страницы (страницы с песнями)__________________________________________________________________________________________________________
     drawer = ft.NavigationDrawer(
@@ -473,7 +475,7 @@ def main(page: ft.Page):
     song_bar_row=ft.Row(controls=[song_bar_song_img,song_bar_texts_column])
     song_bar_cont=ft.Container(content=song_bar_row,height=100,width=1900, bgcolor='#14044d')
 
-    song_bar_list_tile= ft.CupertinoListTile(
+    song_bar_list_tile = ft.CupertinoListTile(
         additional_info=ft.Text(value=f"no data", color='#e8eee7', size=22),
         leading=ft.Image(
             src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
@@ -484,8 +486,8 @@ def main(page: ft.Page):
         subtitle=ft.Text(value=f"TEST AUHTOR - TEST GENRE", color='#a1a6a1', size=19),
         on_click=click_on_cong,
         height=110,
-        bgcolor='#14044d',
-    )
+        bgcolor='#14044d',)
+
     test222 = ft.Image(
         src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
         height=400, width=1900, fit=ft.ImageFit.COVER)
@@ -496,9 +498,9 @@ def main(page: ft.Page):
     songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_new_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])
     songs_list_stack=ft.Stack(controls=[test222,song_bar_list_tile])
     page.update()
-    page.add(all_songs_column)
+
     home_page_column=ft.Column([home_menus_buttons,divider_home_page,songs_menus_elements,divider_home_songs_page])
-    page.add(home_page_column,songs_list_stack)
+    page.add(home_page_column,all_songs_column)
     page.add(add_new_song_dlg)
     page.update()
     page.padding=ft.Padding(top=20,left=30,right=30,bottom=80)
@@ -509,7 +511,7 @@ def main(page: ft.Page):
     page.update()
     page.add(sec_song_player_column)
     page.update()
-    all_songs_column.visible=False
+    all_songs_column.visible=True
     page.update()
 
 

@@ -334,18 +334,32 @@ def main(page: ft.Page):
 
     first_song_player_row = ft.Row(
         controls=[song_player_slider_segment_but, song_player_design_icon_but, song_player_additinol_icon_but])
+
     second_song_player_row = ft.Row(
-        controls=[song_like_icon_but, song_add_to_playlist_icon_but, song_ecvalizer_icon_but,song_timer_icon_but, songs_queue_icon_but])
-    third_song_player_row = ft.Row(controls=[back_song_time_icon_but, song_play_slider, forward_song_time_icon_but])
+        controls=[song_like_icon_but, song_add_to_playlist_icon_but, song_ecvalizer_icon_but, song_timer_icon_but,
+                  songs_queue_icon_but],
+        width=1200,
+        spacing=40,
+        alignment=ft.MainAxisAlignment.CENTER)
+
+    third_song_player_row = ft.Row(
+        controls=[back_song_time_icon_but, song_play_slider, forward_song_time_icon_but],
+        width=1200,
+        spacing=25,
+        alignment=ft.MainAxisAlignment.CENTER )
+
     fourth_song_player_row = ft.Row(
-        controls=[song_player_random_sort_icon_but, song_player_previous_song_icon_but, song_player_play_song_icon_but,
-                  song_player_next_song_icon_but, song_player_repeat_songs])
+        controls=[song_player_random_sort_icon_but, song_player_previous_song_icon_but,
+                  song_player_play_song_icon_but,song_player_next_song_icon_but, song_player_repeat_songs],
+        width=1200,
+        spacing=40,
+        alignment=ft.MainAxisAlignment.CENTER)
 
     song_player_column = ft.Column(
         controls=[song_player_name_text, song_player_author_genre_text,
                   second_song_player_row, third_song_player_row, fourth_song_player_row],alignment=ft.MainAxisAlignment.START,
                                        horizontal_alignment=ft.CrossAxisAlignment.START,height=500)
-    song_player_row = ft.Row(controls=[song_player_img, song_player_column])
+    song_player_row = ft.Row(controls=[song_player_img, song_player_column], spacing=20)
 
     sec_song_player_column = ft.Column(controls=[first_song_player_row, song_player_row],alignment=ft.MainAxisAlignment.START,
                                        horizontal_alignment=ft.CrossAxisAlignment.START)
@@ -440,8 +454,6 @@ def main(page: ft.Page):
     song_bar_cont=ft.Container(content=song_bar_row,height=100,width=1900, bgcolor='#14044d')
 
 
-    #Нужно заменить test222 на all_page_column (колона всей страницы (может не получиться))
-    #Либо заменить на all_songs_column (колона всех песен, но придеться для каждой стрницы делать свой ft.Stack)
 
     home_menus_buttons=ft.Row([menu_icon_but,design_icon_but,search_icon_but,vert_divider_home_menu,page_selecter_but])
     songs_menus_elements=ft.Row([songs_count_text_cont,vert_divider_songs_menu,add_new_song_icon_but,random_sort_but,reproduce_but,sorting_icon_but,songs_list_icon_but])

@@ -235,6 +235,14 @@ def main(page: ft.Page):
         all_songs_column.controls = rundom_songs_items
         page.update()
 
+
+
+
+
+
+
+
+
     # Элементы страницы регистрации
     reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
                                 on_click=view_registration,
@@ -472,7 +480,7 @@ def main(page: ft.Page):
     page.update()
     page.add(sec_song_player_column)
     page.update()
-    all_songs_column.visible=False
+    all_songs_column.visible=True
     page.update()
 
 

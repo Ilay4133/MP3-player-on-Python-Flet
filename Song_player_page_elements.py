@@ -30,13 +30,13 @@ song_player_additinol_icon_but = ft.IconButton(icon=ft.Icons.MORE_VERT_ROUNDED, 
 song_play_slider = ft.Slider(width=950, max=100, min=0, secondary_active_color='#0ba6bf', overlay_color='#41a9ba',
                              active_color='#0ba6bf', inactive_color='#1a0257', thumb_color='#e3a112')
 
-song_player_random_sort_icon_but = ft.IconButton(icon=ft.Icons.SHUFFLE_SHARP, icon_size=60, tooltip="Перемешать"
+song_player_random_sort_icon_but = ft.IconButton(icon=ft.Icons.SHUFFLE_SHARP, icon_size=70, tooltip="Перемешать"
                                     ,icon_color='#0ba6bf',hover_color='#00457d')
-song_player_previous_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_PREVIOUS_ROUNDED, icon_size=60, tooltip="Предыдущая "
+song_player_previous_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_PREVIOUS_ROUNDED, icon_size=70, tooltip="Предыдущая "
                                     ,icon_color='#0ba6bf',hover_color='#00457d')
-song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED, icon_size=60, tooltip="Запустить"
+song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED, icon_size=80, tooltip="Запустить"
                                     ,icon_color='#0ba6bf',hover_color='#00457d') #Icons.PAUSE_CIRCLE_ROUNDED
-song_player_next_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_NEXT_ROUNDED, icon_size=60, tooltip="Следующая"
+song_player_next_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_NEXT_ROUNDED, icon_size=70, tooltip="Следующая"
                                     ,icon_color='#0ba6bf',hover_color='#00457d')
-song_player_repeat_songs = ft.IconButton(icon=ft.Icons.REPEAT_ROUNDED, icon_size=60, tooltip="Повторять"
+song_player_repeat_songs = ft.IconButton(icon=ft.Icons.REPEAT_ROUNDED, icon_size=70, tooltip="Повторять"
                                     ,icon_color='#0ba6bf',hover_color='#00457d') #Icons.REPEAT_ONE_ROUNDED

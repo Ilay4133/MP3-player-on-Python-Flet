@@ -339,7 +339,7 @@ def main(page: ft.Page):
         controls=[song_like_icon_but, song_add_to_playlist_icon_but, song_ecvalizer_icon_but, song_timer_icon_but,
                   songs_queue_icon_but],
         width=1200,
-        spacing=40,
+        spacing=100,
         alignment=ft.MainAxisAlignment.CENTER)
 
     third_song_player_row = ft.Row(
@@ -352,7 +352,7 @@ def main(page: ft.Page):
         controls=[song_player_random_sort_icon_but, song_player_previous_song_icon_but,
                   song_player_play_song_icon_but,song_player_next_song_icon_but, song_player_repeat_songs],
         width=1200,
-        spacing=40,
+        spacing=80,
         alignment=ft.MainAxisAlignment.CENTER)
 
     song_player_column = ft.Column(

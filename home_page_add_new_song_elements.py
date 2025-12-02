@@ -16,9 +16,5 @@ album_field=ft.TextField(value="", label="Альбом",label_style=ft.TextStyle
 
 all_songs_column=ft.Column(controls=[],scroll=ft.ScrollMode.ALWAYS,height=700)
 
-def click_on_cong(e):
-    print(e.control.title.value)
-    if e.control.title.value == 'Anime5':
-        print('hello')
 
 

@@ -204,7 +204,44 @@ def main(page: ft.Page):
         page.open(snack_bar)
         page.update()
 
+    def open_song_player_Page(e):
+        all_songs_column.visible = False
+        sec_song_player_column.visible = True
+        page.update()
 
+    def update_songs_view(songs_count_text):
+        all_songs_column.controls.clear()
+        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+        cur = db.cursor()
+        cur.execute("SELECT * FROM Songs_data")
+        songs = cur.fetchall()
+
+        for i in songs:
+            list_tile = ft.CupertinoListTile(
+                additional_info=ft.Text(value=f"no data", color='#e8eee7', size=22),
+                leading=ft.Image(
+                    src="https://murkosha.ru/sites/default/files/styles/adaptive/public/news/2022/nikitis_i_sedrik.jpg?itok=KOsbDKW6",
+                    height=80, width=80, fit=ft.ImageFit.COVER, border_radius=15),
+                leading_size=80,
+                leading_to_title=18,
+                title=ft.Text(value=f"no data", color='#e8eee7', size=35),
+                subtitle=ft.Text(value=f"no data", color='#a1a6a1', size=19),
+                on_click=open_song_player_Page,
+                height=90,
+            )
+            all_songs_column.controls.append(list_tile)
+            all_songs_column.controls.append(ft.Divider())
+        songs_count_text.value = f"{len(songs)} Песен"
+
+        for i in all_songs_column.controls[::2]:
+            element_index = all_songs_column.controls.index(i)
+            i.additional_info.value = f"{songs[element_index // 2][4]}"
+            i.leading.src = f"{songs[element_index // 2][6]}"
+            i.title.value = f"{songs[element_index // 2][0]}"
+            i.subtitle.value = f"{songs[element_index // 2][1]} - {songs[element_index // 2][3]}"
+        all_songs_column.update()
+        cur.close()
+        db.close()
 
     def view_add_new_song_to_data(e):
         add_new_song_return = add_new_song_to_data()
@@ -341,7 +378,8 @@ def main(page: ft.Page):
 
 
     first_song_player_row = ft.Row(
-        controls=[song_player_slider_segment_but, song_player_design_icon_but, song_player_additinol_icon_but])
+        controls=[song_player_slider_segment_but, ft.VerticalDivider(width=500,),song_player_design_icon_but, song_player_additinol_icon_but],
+    width=1800,alignment=ft.MainAxisAlignment.END)
 
     second_song_player_row = ft.Row(
         controls=[song_like_icon_but, song_add_to_playlist_icon_but, song_ecvalizer_icon_but, song_timer_icon_but,
@@ -472,7 +510,7 @@ def main(page: ft.Page):
     page.add(home_page_column,all_songs_column)
     page.add(add_new_song_dlg)
     page.update()
-    page.padding=ft.Padding(top=20,left=30,right=30,bottom=80)
+    page.padding=ft.Padding(top=20,left=30,right=30,bottom=20)
     start_column.visible=False
     page.close(add_new_song_dlg)
     page.add(mp3_file_picker,img_file_picker)

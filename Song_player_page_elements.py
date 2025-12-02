@@ -1,5 +1,7 @@
 import flet as ft
+import flet_audio as fa
 
+song_mp3_file = "C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_mp3_data/BOOM - Evil (Official Video).mp3"
 
 song_player_img = ft.Image(src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
                                height=600, width=600, fit=ft.ImageFit.COVER)
@@ -30,15 +32,85 @@ song_player_additinol_icon_but = ft.IconButton(icon=ft.Icons.MORE_VERT_ROUNDED, 
 song_play_slider = ft.Slider(width=950, max=100, min=0, secondary_active_color='#0ba6bf', overlay_color='#41a9ba',
                              active_color='#0ba6bf', inactive_color='#1a0257', thumb_color='#e3a112')
 
+# __________________________________
+
+def pasue_and_resume(e):
+    if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED
+
+def volume_down(_):
+    song_audio.volume -= 0.1
+    song_audio.update()
+
+
+def volume_up(_):
+    song_audio.volume += 0.1
+    song_audio.update()
+
+
+def balance_left(_):
+    song_audio.balance -= 0.1
+    song_audio.update()
+
+
+def balance_right(_):
+    song_audio.balance += 0.1
+    song_audio.update()
+
+
+def play(_):
+    song_audio.play()
+
+
+def pause(_):
+    song_audio.pause()
+
+
+def resume(_):
+    song_audio.resume()
+
+
+def release(_):
+    song_audio.release()
+
+
+def seek(_):
+    song_audio.seek(3000)
+
+
+def get_duration(_):
+    print("Current duration:", song_audio.get_duration())
+
+
+def get_position(_):
+    print("Current position:", song_audio.get_current_position())
+
+
+song_audio = fa.Audio(
+    src=song_mp3_file,
+    autoplay=False,
+    volume=1,
+    balance=0,
+    on_loaded=lambda _: print("Loaded"),
+    on_duration_changed=lambda e: print("Duration changed:", e.data),
+    on_position_changed=lambda e: print("Position changed:", e.data),
+    on_state_changed=lambda e: print("State changed:", e.data),
+    on_seek_complete=lambda _: print("Seek complete"),
+)
+
+# __________________________________
+
 song_player_random_sort_icon_but = ft.IconButton(icon=ft.Icons.SHUFFLE_SHARP, icon_size=70, tooltip="Перемешать",
                                     icon_color='#0ba6bf',hover_color='#00457d')
 song_player_previous_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_PREVIOUS_ROUNDED, icon_size=70, tooltip="Предыдущая ",
                                     icon_color='#0ba6bf',hover_color='#00457d')
-song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED, icon_size=80, tooltip="Запустить",
-                                    icon_color='#0ba6bf',hover_color='#00457d') #Icons.PAUSE_CIRCLE_ROUNDED
+song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PAUSE_CIRCLE_ROUNDED, icon_size=80, tooltip="Запустить",
+                                    icon_color='#0ba6bf',hover_color='#00457d', on_click=pause_and_resume) #Icons.PLAY_CIRCLE_FILLED_ROUNDED
 song_player_next_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_NEXT_ROUNDED, icon_size=70, tooltip="Следующая",
                                     icon_color='#0ba6bf',hover_color='#00457d')
 song_player_repeat_songs = ft.IconButton(icon=ft.Icons.REPEAT_ROUNDED, icon_size=70, tooltip="Повторять",
                                     icon_color='#0ba6bf',hover_color='#00457d') #Icons.REPEAT_ONE_ROUNDED
 song_player_back_icon_but = ft.IconButton(icon=ft.Icons.ARROW_BACK_IOS_NEW_ROUNDED, icon_size=60, tooltip="Назад",
                                     icon_color='#0ba6bf',hover_color='#00457d')
+
+# __________________________________
+

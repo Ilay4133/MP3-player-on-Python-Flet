@@ -16,6 +16,7 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
     page.pading=ft.padding.all(100)
+    page.overlay.append()
     page.update()
 
     def snack_bar_open():

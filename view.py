@@ -389,8 +389,9 @@ def main(page: ft.Page):
 
 
     first_song_player_row = ft.Row(
-        controls=[song_player_slider_segment_but, ft.VerticalDivider(width=500,),song_player_design_icon_but, song_player_additinol_icon_but],
-    width=1800,alignment=ft.MainAxisAlignment.END)
+        controls=[song_player_back_icon_but,song_player_slider_segment_but, ft.VerticalDivider(width=1190,),song_player_design_icon_but, song_player_additinol_icon_but],
+    width=1900,alignment=ft.MainAxisAlignment.END, )
+
 
     second_song_player_row = ft.Row(
         controls=[song_like_icon_but, song_add_to_playlist_icon_but, song_ecvalizer_icon_but, song_timer_icon_but,

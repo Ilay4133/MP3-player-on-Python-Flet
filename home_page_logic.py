@@ -13,11 +13,11 @@ global audio_length
 global selected_file_img
 global selected_file_mp3
 
-mp3_file_name = None
-img_file_name = None
-audio_length = None
-selected_file_img = None
-selected_file_mp3 = None
+mp3_file_name: None
+img_file_name: None
+audio_length: None
+selected_file_img: None
+selected_file_mp3: None
 
 
 # Пути к папкам

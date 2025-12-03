@@ -4,6 +4,8 @@ from App_Logic.Home_Page_Logic.home_page_logic import *
 from home_page_add_new_song_elements import *
 from Song_player_page_elements import *
 import flet as ft
+import time
+import threading
 
 
 
@@ -16,7 +18,7 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
     page.pading=ft.padding.all(100)
-    page.overlay.append(song_audio)
+
     page.update()
 
     def snack_bar_open():
@@ -205,6 +207,34 @@ def main(page: ft.Page):
         page.add(snack_bar)
         page.open(snack_bar)
         page.update()
+
+    def plus():
+        song_play_slider.value += 1
+        page.update()
+
+    song_audio = fa.Audio(
+        src=song_mp3_file,
+        autoplay=False,
+        volume=1,
+        balance=0,
+        on_loaded=lambda _: print("Loaded"),
+        on_duration_changed=lambda e: print("Duration changed:", e.data),
+        on_position_changed=plus(),
+        on_state_changed=lambda e: print("State changed:", e.data),
+        on_seek_complete=lambda _: print("Seek complete"),
+    )
+
+
+
+    page.overlay.append(song_audio)
+    def slider_update():
+        song_play_slider.value += 1
+        page.update()
+
+    def play_song_audio():
+        song_audio.play()
+        slider_thred = threading.Thread(target=slider_update)
+
 
     def open_song_player_Page(e):
         db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')

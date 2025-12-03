@@ -34,16 +34,7 @@ song_play_slider = ft.Slider(width=950, max=100, min=0, secondary_active_color='
 
 # __________________________________
 
-def pause_and_resume(e):
-    if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED:
-        song_audio.pause()
-        song_player_play_song_icon_but.icon = ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED
 
-
-    elif song_player_play_song_icon_but.icon == ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED:
-        song_audio.resume()
-        song_player_play_song_icon_but.icon = ft.Icons.PAUSE_CIRCLE_ROUNDED
-    song_player_play_song_icon_but.update()
 
 def volume_down(song_audio):
     song_audio.volume -= 0.1
@@ -77,8 +68,6 @@ song_player_random_sort_icon_but = ft.IconButton(icon=ft.Icons.SHUFFLE_SHARP, ic
                                     icon_color='#0ba6bf',hover_color='#00457d')
 song_player_previous_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_PREVIOUS_ROUNDED, icon_size=70, tooltip="Предыдущая ",
                                     icon_color='#0ba6bf',hover_color='#00457d')
-song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PAUSE_CIRCLE_ROUNDED, icon_size=80, tooltip="Запустить",
-                                    icon_color='#0ba6bf',hover_color='#00457d', on_click=pause_and_resume) #Icons.PLAY_CIRCLE_FILLED_ROUNDED
 song_player_next_song_icon_but = ft.IconButton(icon=ft.Icons.SKIP_NEXT_ROUNDED, icon_size=70, tooltip="Следующая",
                                     icon_color='#0ba6bf',hover_color='#00457d')
 song_player_repeat_songs = ft.IconButton(icon=ft.Icons.REPEAT_ROUNDED, icon_size=70, tooltip="Повторять",

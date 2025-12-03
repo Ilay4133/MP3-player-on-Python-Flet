@@ -212,12 +212,16 @@ def main(page: ft.Page):
         song_play_slider.value += 1
         page.update()
 
+    def song_audio_play(e):
+        song_audio.play()
+        page.update()
+
     song_audio = fa.Audio(
         src=song_mp3_file,
         autoplay=False,
         volume=1,
         balance=0,
-        on_loaded=lambda _: print("Loaded"),
+        on_loaded=None,
         on_duration_changed=lambda e: print("Duration changed:", e.data),
         on_position_changed=plus(),
         on_state_changed=lambda e: print("State changed:", e.data),
@@ -225,8 +229,8 @@ def main(page: ft.Page):
     )
 
 
-
     page.overlay.append(song_audio)
+    
     def slider_update():
         song_play_slider.value += 1
         page.update()
@@ -235,6 +239,21 @@ def main(page: ft.Page):
         song_audio.play()
         slider_thred = threading.Thread(target=slider_update)
 
+    def pause_and_resume(e):
+        if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED:
+            song_audio.pause()
+            song_player_play_song_icon_but.icon = ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED
+
+
+        elif song_player_play_song_icon_but.icon == ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED:
+            song_audio.resume()
+            song_player_play_song_icon_but.icon = ft.Icons.PAUSE_CIRCLE_ROUNDED
+        song_player_play_song_icon_but.update()
+
+    song_player_play_song_icon_but = ft.IconButton(icon=ft.Icons.PAUSE_CIRCLE_ROUNDED, icon_size=80,
+                                                   tooltip="Запустить",
+                                                   icon_color='#0ba6bf', hover_color='#00457d',
+                                                   on_click=pause_and_resume)  # Icons.PLAY_CIRCLE_FILLED_ROUNDED
 
     def open_song_player_Page(e):
         db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
@@ -246,12 +265,15 @@ def main(page: ft.Page):
         song_player_name_text.value=song_list[0]
         song_player_author_genre_text.value=f"{song_list[1]} - {song_list[2]}"
         song_audio.src = song_list[5]
-        song_audio.play()
+        song_audio.update()
         song_player_song_text.value="ТЕКСТ ПЕСНИ"
         all_songs_column.visible = False
         sec_song_player_column.visible = True
         page.update()
+        time.sleep(0.5)
         song_audio.play()
+        song_audio.update()
+        page.update()
 
 
     def update_songs_view(songs_count_text):

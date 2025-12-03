@@ -38,9 +38,9 @@ def main(page: ft.Page):
             if is_running:
                 slider.value = current_time
                 page.update()
-                current_time += 0.5
+                current_time += 0.01
 
-            time.sleep(0.5)
+            time.sleep(0.01)
 
     threading.Thread(target=update_slider, daemon=True).start()
 

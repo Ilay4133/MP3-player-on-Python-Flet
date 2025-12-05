@@ -10,7 +10,12 @@ import threading
 
 
 def main(page: ft.Page):
-
+    song_duration = 0
+    is_dragging = False
+    is_running = True
+    audio_seek = False
+    audio_dur = 0
+    current_time = 0
     page.title = "MP3 - Player"
     page.bgcolor='#0b012e'
     page.scroll=ft.ScrollMode.ALWAYS
@@ -208,13 +213,25 @@ def main(page: ft.Page):
         page.open(snack_bar)
         page.update()
 
-    def plus():
-        song_play_slider.value += 1
-        page.update()
+    def slider_drag_start(e):
+        nonlocal is_dragging
+        is_dragging = True
 
-    def song_audio_play(e):
-        song_audio.play()
-        page.update()
+    def slider_drag_end(e):
+        nonlocal is_dragging
+        is_dragging = False
+
+    def song_duratin_update(e):
+        song_audio.pause()
+
+        nonlocal current_time, is_dragging
+        if is_dragging:
+            current_time = song_play_slider.value
+        duration = int(song_play_slider.value * 1000)
+        song_audio.seek(duration)
+        song_audio.resume()
+        song_audio.update()
+        time.sleep(0.05)
 
     song_audio = fa.Audio(
         src=song_mp3_file,
@@ -223,23 +240,36 @@ def main(page: ft.Page):
         balance=0,
         on_loaded=None,
         on_duration_changed=lambda e: print("Duration changed:", e.data),
-        on_position_changed=plus(),
+        on_position_changed=lambda e: print("Position changed:", e.data),
         on_state_changed=lambda e: print("State changed:", e.data),
         on_seek_complete=lambda _: print("Seek complete"),
     )
 
+    song_play_slider = ft.Slider(width=950, max=100, min=0,
+                                 secondary_active_color='#0ba6bf',
+                                 overlay_color='#41a9ba',
+                                 active_color='#0ba6bf',
+                                 inactive_color='#1a0257',
+                                 thumb_color='#e3a112',
+                                 value=0, on_change=song_duratin_update,
+                                on_change_start=slider_drag_start,
+                                on_change_end=slider_drag_end)
 
     page.overlay.append(song_audio)
-    
-    def slider_update():
-        song_play_slider.value += 1
-        page.update()
 
-    def play_song_audio():
-        song_audio.play()
-        slider_thred = threading.Thread(target=slider_update)
+    def update_slider():
+        nonlocal current_time
+        while current_time <= song_duration:
+            if is_running and not is_dragging:
+                song_play_slider.value = current_time
+                page.update()
+                current_time += 0.01
+            time.sleep(0.01)
 
     def pause_and_resume(e):
+        nonlocal audio_seek
+        nonlocal is_running
+        is_running = not is_running
         if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED:
             song_audio.pause()
             song_player_play_song_icon_but.icon = ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED
@@ -256,7 +286,8 @@ def main(page: ft.Page):
                                                    on_click=pause_and_resume)  # Icons.PLAY_CIRCLE_FILLED_ROUNDED
 
     def open_song_player_Page(e):
-        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+        nonlocal song_duration
+        db = sqlite3.connect('C:/Users/Unicum_Student/Desktop/pythonProject2/User_songs_information.data')
         cur = db.cursor()
         cur.execute("SELECT * FROM Songs_data WHERE name = ?", (e.control.title.value,))
         song = cur.fetchall()
@@ -273,12 +304,15 @@ def main(page: ft.Page):
         time.sleep(0.5)
         song_audio.play()
         song_audio.update()
+        mins, sec = song_list[4].split(":")
+        song_duration = int(mins) * 60 + int(sec)
+        threading.Thread(target=update_slider(), daemon=True).start()
         page.update()
 
 
     def update_songs_view(songs_count_text):
         all_songs_column.controls.clear()
-        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+        db = sqlite3.connect('C:/Users/Unicum_Student/Desktop/pythonProject2/User_songs_information.data')
         cur = db.cursor()
         cur.execute("SELECT * FROM Songs_data")
         songs = cur.fetchall()
@@ -338,12 +372,6 @@ def main(page: ft.Page):
         rundom_songs_items = random_sort_all_songs_column()
         all_songs_column.controls = rundom_songs_items
         page.update()
-
-
-
-
-
-
 
 
 

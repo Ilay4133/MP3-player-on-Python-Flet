@@ -1,7 +1,7 @@
 import flet as ft
 import flet_audio as fa
 
-song_mp3_file = "C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_mp3_data/BOOM - Evil (Official Video).mp3"
+song_mp3_file = "-"
 
 song_player_img = ft.Image(src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
                                height=600, width=600, fit=ft.ImageFit.COVER)
@@ -29,8 +29,9 @@ song_player_design_icon_but = ft.IconButton(icon=ft.Icons.COLOR_LENS_ROUNDED, ic
 song_player_additinol_icon_but = ft.IconButton(icon=ft.Icons.MORE_VERT_ROUNDED, icon_size=60, tooltip="Дополнительно",
                                     icon_color='#0ba6bf',hover_color='#00457d')
 
-song_play_slider = ft.Slider(width=950, max=100, min=0, secondary_active_color='#0ba6bf', overlay_color='#41a9ba',
-                             active_color='#0ba6bf', inactive_color='#1a0257', thumb_color='#e3a112', value=0)
+
+
+
 
 # __________________________________
 
@@ -56,11 +57,6 @@ def resume(song_audio):
 
 def release(song_audio):
     song_audio.release()
-
-
-
-
-
 
 # __________________________________
 

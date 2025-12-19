@@ -1,0 +1,32 @@
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import sklearn
+import numpy as np
+
+audio_path = 'C:/Users/Unicum_Student/Desktop/pythonProject1/【Ado】彗星列車のベルが鳴る 歌いました.mp3'
+x, sr = librosa.load(audio_path)
+print(type(x), type(sr))
+print(x.shape, sr)
+
+# Исправленная строка: передаем y=x как позиционный или именованный аргумент
+spectral_centroids = librosa.feature.spectral_centroid(y=x, sr=sr)[0]
+print(f"Spectral centroids shape: {spectral_centroids.shape}")
+
+
+# Вычисление времени для визуализации
+frames = range(len(spectral_centroids))
+t = librosa.frames_to_time(frames)
+
+# Нормализация спектрального центроида
+def normalize(x, axis=0):
+    return sklearn.preprocessing.minmax_scale(x, axis=axis)
+
+# Построение графика
+plt.figure(figsize=(14, 5))
+librosa.display.waveshow(x, sr=sr, alpha=0.4)
+plt.plot(t, normalize(spectral_centroids), color='r')
+plt.title('Форма волны и спектральный центроид')
+plt.xlabel('Время (секунды)')
+plt.ylabel('Амплитуда / Нормализованный центроид')
+plt.show()

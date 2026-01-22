@@ -222,6 +222,7 @@ def main(page: ft.Page):
         is_dragging = False
 
     def song_duratin_update(e):
+
         song_audio.pause()
 
         nonlocal current_time, is_dragging
@@ -231,19 +232,6 @@ def main(page: ft.Page):
         song_audio.seek(duration)
         song_audio.resume()
         song_audio.update()
-        time.sleep(0.05)
-
-    song_audio = fa.Audio(
-        src=song_mp3_file,
-        autoplay=False,
-        volume=1,
-        balance=0,
-        on_loaded=None,
-        on_duration_changed=lambda e: print("Duration changed:", e.data),
-        on_position_changed=lambda e: print("Position changed:", e.data),
-        on_state_changed=lambda e: print("State changed:", e.data),
-        on_seek_complete=lambda _: print("Seek complete"),
-    )
 
     song_play_slider = ft.Slider(width=950, max=100, min=0,
                                  secondary_active_color='#0ba6bf',
@@ -252,24 +240,36 @@ def main(page: ft.Page):
                                  inactive_color='#1a0257',
                                  thumb_color='#e3a112',
                                  value=0, on_change=song_duratin_update,
-                                on_change_start=slider_drag_start,
-                                on_change_end=slider_drag_end)
+                                 on_change_start=slider_drag_start,
+                                 on_change_end=slider_drag_end)
+
+    def update_slider(e):
+        
+        print(e.data)
+        nonlocal current_time
+        song_play_slider.value = current_time
+        page.update()
+        current_time += 1
+        page.update()
+
+    
+    song_audio = fa.Audio(
+        src=song_mp3_file,
+        autoplay=False,
+        volume=1,
+        balance=0,
+        on_loaded=None,
+        on_duration_changed=lambda e: print("Duration changed:", e.data),
+        on_position_changed=update_slider,
+        on_state_changed=lambda e: print("State changed:", e.data),
+        on_seek_complete=lambda _: print("Seek complete"),
+    )
+
+
 
     page.overlay.append(song_audio)
 
-    def update_slider():
-        nonlocal current_time
-        while current_time <= song_duration:
-            if is_running and not is_dragging:
-                song_play_slider.value = current_time
-                page.update()
-                current_time += 0.01
-            time.sleep(0.01)
-
     def pause_and_resume(e):
-        nonlocal audio_seek
-        nonlocal is_running
-        is_running = not is_running
         if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED:
             song_audio.pause()
             song_player_play_song_icon_but.icon = ft.Icons.PLAY_CIRCLE_FILLED_ROUNDED
@@ -287,7 +287,7 @@ def main(page: ft.Page):
 
     def open_song_player_Page(e):
         nonlocal song_duration
-        db = sqlite3.connect('C:/Users/Unicum_Student/Desktop/pythonProject2/User_songs_information.data')
+        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
         cur = db.cursor()
         cur.execute("SELECT * FROM Songs_data WHERE name = ?", (e.control.title.value,))
         song = cur.fetchall()
@@ -305,14 +305,15 @@ def main(page: ft.Page):
         song_audio.play()
         song_audio.update()
         mins, sec = song_list[4].split(":")
-        song_duration = int(mins) * 60 + int(sec)
-        threading.Thread(target=update_slider(), daemon=True).start()
+        song_duration = int(mins) * 60 + int(sec) + 2
+        song_play_slider.max = song_duration
+        print(song_play_slider.max)
         page.update()
 
 
     def update_songs_view(songs_count_text):
         all_songs_column.controls.clear()
-        db = sqlite3.connect('C:/Users/Unicum_Student/Desktop/pythonProject2/User_songs_information.data')
+        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
         cur = db.cursor()
         cur.execute("SELECT * FROM Songs_data")
         songs = cur.fetchall()

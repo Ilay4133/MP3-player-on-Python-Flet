@@ -22,7 +22,7 @@ def main(page: ft.Page):
     page.theme_mode=ft.ThemeMode.DARK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER  # Центрирование по вертикали
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Центрирование по горизонтали
-    page.pading=ft.padding.all(100)
+    page.pading=ft.Padding.all(100)
 
     page.update()
 
@@ -80,7 +80,7 @@ def main(page: ft.Page):
 
     class Open_home():
         def open_add_new_song_wind(e):
-            page.open(add_new_song_dlg)
+            page.show_dialog(add_new_song_dlg)
             page.update()
         def open_select_songs_wind(e):
             pass
@@ -184,33 +184,33 @@ def main(page: ft.Page):
     def add_song_snack_bar_open_no_mp3_data(page):
         snack_bar = ft.SnackBar(ft.Text(value="Не выбран .mp3 файл", color='#e8eee7'), bgcolor='#0c3348')
         page.add(snack_bar)
-        page.open(snack_bar)
+        page.show_dialog(snack_bar)
         page.update()
 
     def add_song_snack_bar_open_no_img_data(page):
         snack_bar=ft.SnackBar(ft.Text("Не выбран .png / .jpg файл", color='#e8eee7'), bgcolor='#0c3348')
         page.add(snack_bar)
-        page.open(snack_bar)
+        page.show_dialog(snack_bar)
         page.update()
 
 
     def add_song_snack_bar_open_no_field_data(page):
         snack_bar = ft.SnackBar(ft.Text(value="Не заполнены все поля", color='#e8eee7'), bgcolor='#0c3348')
         page.add(snack_bar)
-        page.open(snack_bar)
+        page.show_dialog(snack_bar)
         page.update()
 
     def add_song_snack_bar_open_already(page):
         snack_bar = ft.SnackBar(ft.Text(value="Такая песня уже есть (SQLite database Error)", color='#e8eee7'),
                                      bgcolor='#0c3348')
         page.add(snack_bar)
-        page.open(snack_bar)
+        page.show_dialog(snack_bar)
         page.update()
 
     def open_song_snack_bar_new_song_added(page):
         snack_bar = ft.SnackBar(ft.Text(value="Песня добавлена", color='#e8eee7'), bgcolor='#0c3348')
         page.add(snack_bar)
-        page.open(snack_bar)
+        page.show_dialog(snack_bar)
         page.update()
 
     def slider_drag_start(e):
@@ -243,7 +243,7 @@ def main(page: ft.Page):
                                  on_change_start=slider_drag_start,
                                  on_change_end=slider_drag_end)
 
-    def update_slider(e):
+    async def update_slider(e):
         
         print(e.data)
         nonlocal current_time
@@ -259,15 +259,15 @@ def main(page: ft.Page):
         volume=1,
         balance=0,
         on_loaded=None,
-        on_duration_changed=lambda e: print("Duration changed:", e.data),
-        on_position_changed=update_slider,
-        on_state_changed=lambda e: print("State changed:", e.data),
+        on_duration_change=lambda e: print("Duration changed:", e.data),
+        on_position_change=update_slider,
+        on_state_change=lambda e: print("State changed:", e.data),
         on_seek_complete=lambda _: print("Seek complete"),
     )
 
 
 
-    page.overlay.append(song_audio)
+
 
     def pause_and_resume(e):
         if song_player_play_song_icon_but.icon == ft.Icons.PAUSE_CIRCLE_ROUNDED:
@@ -287,7 +287,7 @@ def main(page: ft.Page):
 
     def open_song_player_Page(e):
         nonlocal song_duration
-        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+        db = sqlite3.connect('C:/Users/Ilay_/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
         cur = db.cursor()
         cur.execute("SELECT * FROM Songs_data WHERE name = ?", (e.control.title.value,))
         song = cur.fetchall()
@@ -313,7 +313,7 @@ def main(page: ft.Page):
 
     def update_songs_view(songs_count_text):
         all_songs_column.controls.clear()
-        db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+        db = sqlite3.connect('C:/Users/Ilay_/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
         cur = db.cursor()
         cur.execute("SELECT * FROM Songs_data")
         songs = cur.fetchall()
@@ -323,7 +323,7 @@ def main(page: ft.Page):
                 additional_info=ft.Text(value=f"no data", color='#e8eee7', size=22),
                 leading=ft.Image(
                     src="https://murkosha.ru/sites/default/files/styles/adaptive/public/news/2022/nikitis_i_sedrik.jpg?itok=KOsbDKW6",
-                    height=80, width=80, fit=ft.ImageFit.COVER, border_radius=15),
+                    height=80, width=80, fit=ft.Image.fit, border_radius=15),
                 leading_size=80,
                 leading_to_title=18,
                 title=ft.Text(value=f"no data", color='#e8eee7', size=35),
@@ -348,23 +348,28 @@ def main(page: ft.Page):
     def view_add_new_song_to_data(e):
         add_new_song_return = add_new_song_to_data()
         if add_new_song_return=="add_song_snack_bar_open_no_mp3_data":
-            page.close(add_new_song_dlg)
+            add_new_song_dlg.open = False
+            page.update()
             add_song_snack_bar_open_no_mp3_data(page)
 
         elif add_new_song_return == "add_song_snack_bar_open_no_img_data":
-            page.close(add_new_song_dlg)
+            add_new_song_dlg.open = False
+            page.update()
             add_song_snack_bar_open_no_img_data(page)
 
         elif add_new_song_return == "add_song_snack_bar_open_no_field_data":
-            page.close(add_new_song_dlg)
+            add_new_song_dlg.open = False
+            page.update()
             add_song_snack_bar_open_no_field_data(page)
 
         elif add_new_song_return == "add_song_snack_bar_open_already":
-            page.close(add_new_song_dlg)
+            add_new_song_dlg.open = False
+            page.update()
             add_song_snack_bar_open_already(page)
 
         elif add_new_song_return == "open_song_snack_bar_new_song_added":
-            page.close(add_new_song_dlg)
+            add_new_song_dlg.open = False
+            page.update()
             open_song_snack_bar_new_song_added(page)
         update_songs_view(songs_count_text)
         page.update()
@@ -377,7 +382,7 @@ def main(page: ft.Page):
 
 
     # Элементы страницы регистрации
-    reg_but = ft.ElevatedButton(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
+    reg_but = ft.Button(content=ft.Text(value="Зарегистрироваться", color='#e8eee7',style=ft.TextStyle(size=17)),
                                 on_click=view_registration,
                                 bgcolor='#036380', style=ft.ButtonStyle(overlay_color='#0ba6bf'),width=200,height=35)
     dlg_reg = ft.AlertDialog(
@@ -385,52 +390,59 @@ def main(page: ft.Page):
         title=ft.Text("Подтвердите пожалуйста",color='#e8eee7'),
         content=ft.Text("Хотите перейти ко входу?",color='#e8eee7'),
         actions=[
-            ft.TextButton(text="Да", on_click=Open_reg.open_vhod_window_lambda,
+            ft.TextButton(content = ft.Text(value = "Да"), on_click=Open_reg.open_vhod_window_lambda,
                           style=ft.ButtonStyle(color='#e8eee7', bgcolor='#036380', overlay_color='#0ba6bf')),
-            ft.TextButton(text="Нет", on_click=Close_reg.close_dlg,
+            ft.TextButton(content = ft.Text(value = "Нет"), on_click=Close_reg.close_dlg,
                           style=ft.ButtonStyle(color='#e8eee7', bgcolor='#036380', overlay_color='#0ba6bf'))],
         actions_alignment=ft.MainAxisAlignment.END, bgcolor='#012f4a')
 
     reg = ft.Column([reg_text, name_field_reg, last_name_field_reg, otchestvo_field_reg, pas_field_reg, mail_field,
                      age_field_reg, pol_vebor, city_field_reg,
                      reg_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
-    reg_column = ft.Container(content=reg, alignment=ft.alignment.center, expand=True)
+    reg_column = ft.Container(content=reg, alignment=ft.Alignment.CENTER, expand=True)
 
     # Элементы страницы входа
-    vhod_but = ft.ElevatedButton(content=ft.Text(value="Вход", color='#e8eee7',style=ft.TextStyle(size=17)),
+    vhod_but = ft.Button(content=ft.Text(value="Вход", color='#e8eee7',style=ft.TextStyle(size=17)),
                                  on_click=view_login, bgcolor='#036380',
                                  style=ft.ButtonStyle(overlay_color='#0ba6bf'),width=200,height=35)
     vhod = ft.Column([vhod_text, name_field_login, pas_field_login, vhod_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
-    vhod_column = ft.Container(content=vhod, alignment=ft.alignment.center, expand=True)
+    vhod_column = ft.Container(content=vhod, alignment=ft.Alignment.CENTER, expand=True)
 
     # Элементы начальной страницы
     vhod_in_text = ft.Text(value="Уже есть аккаунт?",style=ft.TextStyle(size=18,weight=ft.FontWeight.BOLD),color='#0ba6bf')
-    go_to_reg = ft.ElevatedButton(content=ft.Text(value="Регистрация", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Open_reg.open_reg_window,
+    go_to_reg = ft.Button(content=ft.Text(value="Регистрация", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Open_reg.open_reg_window,
                                   bgcolor='#036380', style=ft.ButtonStyle(elevation=None, overlay_color='#0ba6bf'),width=155)
-    go_to_vhod = ft.ElevatedButton(content=ft.Text(value="Войти ", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Open_reg.open_vhod_window,
+    go_to_vhod = ft.Button(content=ft.Text(value="Войти ", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Open_reg.open_vhod_window,
                                    style=ft.ButtonStyle(elevation=None, overlay_color='#0ba6bf'),width=135,bgcolor='#231c3b')
-    back_start_but = ft.ElevatedButton(content=ft.Text(value="Назад", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Close_reg.back_start,
+    back_start_but = ft.Button(content=ft.Text(value="Назад", color='#e8eee7',style=ft.TextStyle(size=17)), on_click=Close_reg.back_start,
                                        bgcolor='#036380', style=ft.ButtonStyle(elevation=None, overlay_color='#0ba6bf'),width=200,height=35)
 
     start = ft.Column([go_to_reg, vhod_in_text, go_to_vhod, back_start_but], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
-    start_column = ft.Container(content=start, alignment=ft.alignment.center, expand=True)
+    start_column = ft.Container(content=start, alignment=ft.Alignment.CENTER, expand=True)
 
     page.add(ft.Column([vhod_column, reg_column, start_column], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER, expand=True))
     Close_reg.back_start(1)
     page.update()
     # Элементы окна добавления новой песни
-    mp3_file_picker = ft.FilePicker(on_result=pick_files_result_mp3)
-    img_file_picker = ft.FilePicker(on_result=pick_files_result_img)
+
+    async def mp3_pick_file(e):
+        mp3_pick_data = await ft.FilePicker().pick_files(allow_multiple=False, allowed_extensions=["mp3"])
+        print(mp3_pick_data)
+        pick_files_result_mp3(mp3_pick_data)
+
+    async def img_pick_file(e):
+        img_pick_data = await ft.FilePicker().pick_files(allow_multiple=False, allowed_extensions=["png", "jpg"])
+        print(img_pick_data)
+        pick_files_result_img(img_pick_data)
+
 
     add_path_to_mp3_but = ft.IconButton(icon=ft.Icons.AUDIO_FILE_ROUNDED,icon_size=70,tooltip="Добавить mp3 файл",
-                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: mp3_file_picker.pick_files(
-            allow_multiple=False,allowed_extensions=["mp3"]))
+                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=mp3_pick_file)
 
     add_path_to_img_but = ft.IconButton(icon=ft.Icons.ADD_PHOTO_ALTERNATE_ROUNDED,icon_size=70,tooltip="Добавить иконку",
-                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click=lambda _: img_file_picker.pick_files(
-            allow_multiple=False,allowed_extensions=["png","jpg"]))
+                                        icon_color = '#0ba6bf', hover_color = '#00457d',on_click= img_pick_file)
 
-    add_new_song_but = ft.ElevatedButton(content=ft.Row([ft.Icon(name=ft.Icons.ADD_ROUNDED,color='#e8eee7',size=40),
+    add_new_song_but = ft.Button(content=ft.Row([ft.Icon(icon=ft.Icons.ADD_ROUNDED,color='#e8eee7',size=40),
                                                          ft.Text("Добавить песню",size=26, color='#e8eee7')], alignment=ft.MainAxisAlignment.CENTER),
                                          bgcolor='#01315c',width=350,height=60,style=ft.ButtonStyle(overlay_color='#036380',elevation=15,shadow_color='#0ba6bf'),
                                          tooltip="Добавить песню в библиотеку",on_click=view_add_new_song_to_data)
@@ -572,14 +584,14 @@ def main(page: ft.Page):
     add_new_song_icon_but=ft.IconButton(icon=ft.Icons.ADD_CIRCLE_OUTLINE_ROUNDED,icon_size=50,icon_color='#0ba6bf',
                                   tooltip="Добавить песню",hover_color='#00457d',on_click=Open_home.open_add_new_song_wind)
 
-    reproduce_icon=ft.Icon(name=ft.Icons.PLAY_ARROW_ROUNDED,color='#e3a112',size=45)
+    reproduce_icon=ft.Icon(icon=ft.Icons.PLAY_ARROW_ROUNDED,color='#e3a112',size=45)
     reproduce_text=ft.Text(value="Воспроизвести",size=32,color='#e8eee7')
-    reproduce_but=ft.ElevatedButton(content=ft.Row([reproduce_icon,reproduce_text]),bgcolor='#01315c',
+    reproduce_but=ft.Button(content=ft.Row([reproduce_icon,reproduce_text]),bgcolor='#01315c',
                                   height=55,width=310,style=ft.ButtonStyle(overlay_color='#036380'))
 
-    random_sort_icon = ft.Icon(name=ft.Icons.SHUFFLE_SHARP, color='#e3a112', size=45)
+    random_sort_icon = ft.Icon(icon=ft.Icons.SHUFFLE_SHARP, color='#e3a112', size=45)
     random_sort_text = ft.Text(value="Перемешать", size=32, color='#e8eee7')
-    random_sort_but = ft.ElevatedButton(content=ft.Row([random_sort_icon, random_sort_text]), bgcolor='#01315c',
+    random_sort_but = ft.Button(content=ft.Row([random_sort_icon, random_sort_text]), bgcolor='#01315c',
                                   height=55, width=270,style=ft.ButtonStyle(overlay_color='#036380'),on_click=view_random_sort_all_songs_column)
     songs_count_text=ft.Text(value="X Песен",size=31,color='#e8eee7')
 
@@ -591,7 +603,7 @@ def main(page: ft.Page):
     song_bar_song_author_genre_text=ft.Text(value="TEST AUHTOR - TEST GENRE",size=22,color='#b4bfb2')
     song_bar_song_img = ft.Image(
         src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
-        height=100, width=100, fit=ft.ImageFit.COVER)
+        height=100, width=100, fit=ft.Image.fit)
     song_bar_texts_column=ft.Column(controls=[song_bar_song_name_text,song_bar_song_author_genre_text])
     song_bar_row=ft.Row(controls=[song_bar_song_img,song_bar_texts_column])
     song_bar_cont=ft.Container(content=song_bar_row,height=100,width=1900, bgcolor='#14044d')
@@ -605,12 +617,12 @@ def main(page: ft.Page):
 
     home_page_column=ft.Column([home_menus_buttons,divider_home_page,songs_menus_elements,divider_home_songs_page])
     page.add(home_page_column,all_songs_column)
-    page.add(add_new_song_dlg)
+
+    page.dialog=add_new_song_dlg
     page.update()
     page.padding=ft.Padding(top=20,left=30,right=30,bottom=20)
     start_column.visible=False
-    page.close(add_new_song_dlg)
-    page.add(mp3_file_picker,img_file_picker)
+
     update_songs_view(songs_count_text)
     page.update()
     page.add(sec_song_player_column)
@@ -619,5 +631,5 @@ def main(page: ft.Page):
     page.update()
 
 
-ft.app(target=main)
+ft.run(main)
 # flet run view.py --web

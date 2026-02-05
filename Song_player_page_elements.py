@@ -4,7 +4,7 @@ import flet_audio as fa
 song_mp3_file = "-"
 
 song_player_img = ft.Image(src="https://cdn-images.dzcdn.net/images/cover/1cd5e403161bfc42357d759b06e63f0e/0x1900-000000-80-0-0.jpg",
-                               height=600, width=600, fit=ft.ImageFit.COVER)
+                               height=600, width=600, fit=ft.Image.fit)
 
 song_player_name_text = ft.Text(value="НАЗВАНИЕ",selectable=True,size=50, color='#e8eee7')
 song_player_author_genre_text = ft.Text(value="АВТОР - ЖАНР",selectable=True,size=50, color='#e8eee7')

@@ -8,23 +8,24 @@ import random
 from mutagen.mp3 import MP3
 
 
-# Инициализация глобальных переменных
+
+
 global mp3_file_name
 global img_file_name
 global audio_length
 global selected_file_img
 global selected_file_mp3
 
-mp3_file_name: None
-img_file_name: None
-audio_length: None
-selected_file_img: None
-selected_file_mp3: None
+mp3_file_name = None
+img_file_name = None
+audio_length = None
+selected_file_img = None
+selected_file_mp3 = None
 
 
 # Пути к папкам
-songs_mp3_data_folder_path = "C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_mp3_data"
-songs_img_data_folder_path = "C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_img_data"
+songs_mp3_data_folder_path = "C:/Users/Ilay_/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_mp3_data"
+songs_img_data_folder_path = "C:/Users/Ilay_/PycharmProjects/MP3-player-on-Python-Flet/App_Data/Songs_Data/songs_img_data"
 
 
 if not os.path.exists(songs_mp3_data_folder_path):
@@ -34,7 +35,7 @@ if not os.path.exists(songs_img_data_folder_path):
     os.makedirs(songs_img_data_folder_path)
 
 # Подключение к базе данных
-db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+db = sqlite3.connect('C:/Users/Ilay_/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
 cur = db.cursor()
 cur.execute("""CREATE TABLE IF NOT EXISTS Songs_data (
                 name TEXT PRIMARY KEY,
@@ -65,7 +66,7 @@ def add_new_song_to_data():
         return "add_song_snack_bar_open_no_field_data"
     else:
         try:
-            db = sqlite3.connect('C:/Users/User/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
+            db = sqlite3.connect('C:/Users/Ilay_/PycharmProjects/MP3-player-on-Python-Flet/User_songs_information.data')
             cur = db.cursor()
             values = (
                 str(song_name_field.value),
@@ -77,29 +78,31 @@ def add_new_song_to_data():
                 path_to_img
             )
             cur.execute("INSERT INTO Songs_data (name, author, genre, album, mp3_file_long, path_to_mp3, path_to_img) VALUES(?,?,?,?,?,?,?)",
-                        values)
+                values)
             db.commit()
         except sqlite3.Error as e:
             return "add_song_snack_bar_open_already"
         finally:
             cur.close()
             db.close()
+            returned = 'open_song_snack_bar_new_song_added'
 
-            return "open_song_snack_bar_new_song_added"
-
-
-
+        return returned
 
 
-def pick_files_result_mp3(e: ft.FilePickerResultEvent):
+
+
+
+def pick_files_result_mp3(mp3_pick_data):
+    print(1)
     global mp3_file_name, selected_file_mp3, audio_length
 
-    if e.files:
-        mp3_file_name = e.files[0].name
-        selected_file_mp3 = e.files[0].path
+    if mp3_pick_data:
+        mp3_file_name = mp3_pick_data[0].name
+        selected_file_mp3 = mp3_pick_data[0].path
         try:
             shutil.copy(selected_file_mp3, songs_mp3_data_folder_path)
-            audio = MP3(f"{songs_mp3_data_folder_path}/{mp3_file_name}")
+            audio = MP3(f"{selected_file_mp3}")
             length_in_seconds = audio.info.length
             minutes = int(length_in_seconds // 60)
             if int(length_in_seconds % 60)<10:
@@ -113,18 +116,19 @@ def pick_files_result_mp3(e: ft.FilePickerResultEvent):
         return "snack_bar_file_not_caught"
 
 
-def pick_files_result_img(e: ft.FilePickerResultEvent):
+def pick_files_result_img(img_pick_data):
     global img_file_name, selected_file_img
 
-    if e.files:
-        img_file_name = e.files[0].name
-        selected_file_img = e.files[0].path
-        try:
-            shutil.copy(selected_file_img, songs_img_data_folder_path)
-        except Exception as ex:
-            return ex
+    if img_pick_data:
+        img_file_name = img_pick_data[0].name
+        selected_file_img = img_pick_data[0].path
     else:
+
         return "snack_bar_file_not_caught"
+
+
+
+
 
 def random_sort_all_songs_column():
     songs = [item for item in all_songs_column.controls if isinstance(item, ft.CupertinoListTile)]

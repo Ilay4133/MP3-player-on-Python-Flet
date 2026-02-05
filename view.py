@@ -6,6 +6,7 @@ from Song_player_page_elements import *
 import flet as ft
 import time
 import threading
+import asyncio
 
 
 
@@ -233,6 +234,8 @@ def main(page: ft.Page):
         song_audio.resume()
         song_audio.update()
 
+
+
     song_play_slider = ft.Slider(width=950, max=100, min=0,
                                  secondary_active_color='#0ba6bf',
                                  overlay_color='#41a9ba',
@@ -252,6 +255,43 @@ def main(page: ft.Page):
         current_time += 1
         page.update()
 
+
+    async def audio_volume_down(_):
+        song_audio.volume -= 0.1
+        song_audio.update()
+
+    async def audio_volume_up(_):
+        song_audio.volume += 0.1
+        song_audio.update()
+
+    async def audio_balance_left(_):
+        song_audio.balance -= 0.1
+        song_audio.update()
+
+    async def audio_balance_right(_):
+        song_audio.balance += 0.1
+        song_audio.update()
+
+    async def audio_play():
+        await song_audio.play()
+
+    async def audio_pause(_):
+        await song_audio.pause()
+
+    async def audio_resume(_):
+        await song_audio.resume()
+
+    async def audio_release(_):
+        await song_audio.release()
+
+    async def audio_seek1(_):
+        print(song_audio.seek(7000))
+
+    async def get_duration(_):
+        print("Current duration:", song_audio.get_duration())
+
+    async def get_position(_):
+        print("Current position:", song_audio.get_current_position())
     
     song_audio = fa.Audio(
         src=song_mp3_file,
@@ -302,7 +342,7 @@ def main(page: ft.Page):
         sec_song_player_column.visible = True
         page.update()
         time.sleep(0.5)
-        song_audio.play()
+        asyncio.run(song_audio.play())
         song_audio.update()
         mins, sec = song_list[4].split(":")
         song_duration = int(mins) * 60 + int(sec) + 2
